@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sign Up | eco.mitra</title>
+  <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --green: #4ade80;
+      --dark-green: #22c55e;
+      --orange: #fbbf24;
+      --white: #1a1a2e;
+      --gray: #2c2c4a;
+      --text-dark: #e0e0e0;
+      --text-light: #b0b0b0;
+      --form-bg: #1f1f3a;
+      --input-bg: #2a2a47;
+      --input-border: #444466;
+      --button-bg-primary: #007bff;
+      --button-hover-primary: #0056b3;
+      --button-bg-secondary: #ff5722;
+      --button-hover-secondary: #e64a19;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(195deg, #0a0a1a 0%, #1a1a2e 50%, #2a2a4a 100%);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      color: var(--text-dark);
+      overflow: hidden;
+    }
+
+    dotlottie-player {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 250px;
+      height: 250px;
+      z-index: 1;
+    }
+
+    .signup-container {
+      background-color: var(--form-bg);
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      z-index: 2;
+      border: 1px solid var(--input-border);
+    }
+
+    h2 {
+      font-size: 2.2rem;
+      margin-bottom: 25px;
+      color: var(--orange);
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .input-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--text-light);
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid var(--input-border);
+      border-radius: 8px;
+      background-color: var(--input-bg);
+      color: var(--text-dark);
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .input-group input:focus {
+      border-color: var(--orange);
+      box-shadow: 0 0 0 3px rgba(255, 87, 34, 0.3);
+    }
+
+    .input-group input::placeholder {
+      color: #777;
+    }
+
+    .button-group {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 30px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+      color: var(--white);
+    }
+
+    button[type="submit"] {
+      background-color: var(--button-bg-primary);
+      box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+    }
+
+    button[type="submit"]:hover {
+      background-color: var(--button-hover-primary);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(0, 123, 255, 0.5);
+    }
+
+    .skip-button {
+      background-color: var(--button-bg-secondary);
+      box-shadow: 0 4px 10px rgba(255, 87, 34, 0.3);
+    }
+
+    .skip-button:hover {
+      background-color: var(--button-hover-secondary);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(255, 87, 34, 0.5);
+    }
+
+    .notification-popup {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 15px 25px;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+      z-index: 1000;
+      font-size: 1rem;
+    }
+
+    .notification-popup.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    @media (max-width: 600px) {
+      .signup-container {
+        margin: 20px;
+        padding: 30px;
+      }
+
+      h2 {
+        font-size: 1.8rem;
+      }
+
+      .input-group input,
+      button {
+        padding: 10px;
+        font-size: 1rem;
+      }
+
+      dotlottie-player {
+        width: 120px;
+        height: 120px;
+        top: 10px;
+        right: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- New Lottie animation -->
+  <dotlottie-player
+    src="https://lottie.host/c332f2d9-792f-4efe-b296-f7d630779b86/zuVjQbuQMs.lottie"
+    background="transparent"
+    speed="1"
+    loop
+    autoplay
+  ></dotlottie-player>
+
+  <div class="signup-container">
+    <h2>Sign Up</h2>
+    <form id="signupForm">
+      <input type="hidden" name="action" value="signup"> <!-- Added hidden input for action -->
+      <div class="input-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" placeholder="Choose a username" required />
+      </div>
+      <div class="input-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required />
+      </div>
+      <div class="input-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Create a password" required />
+      </div>
+      <div class="input-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required />
+      </div>
+      <div class="button-group">
+        <button type="submit">Sign Up</button>
+        <button type="button" class="skip-button" onclick="window.location.href='launch.html'">Skip for now</button>
+      </div>
+    </form>
+    <p style="margin-top: 20px; color: var(--text-light); font-size: 0.9em;">
+      Already have an account?
+      <a href="login.html" style="color: var(--orange); text-decoration: none; font-weight: 600;">Login here</a>
+    </p>
+  </div>
+
+  <div id="notificationPopup" class="notification-popup"></div>
+
+  <script>
+    const appsScriptURL = "https://script.google.com/macros/s/AKfycbxGcrGPbvZKW3XaFm4AAPtHPSSuCrUEdG9TT5n5dbWPeo055Ofd0lcHHkI52AFW20dB/exec";
+    const signupForm = document.getElementById('signupForm');
+    const notificationPopup = document.getElementById('notificationPopup');
+
+    function showNotification(message, isSuccess = true) {
+      notificationPopup.textContent = message;
+      notificationPopup.style.backgroundColor = isSuccess ? 'rgba(34,197,94,0.95)' : 'rgba(239,68,68,0.95)';
+      notificationPopup.classList.add('show');
+
+      setTimeout(() => {
+        notificationPopup.classList.remove('show');
+      }, 3000);
+    }
+
+    signupForm.addEventListener('submit', async function(event) {
+      event.preventDefault();
+
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+
+      // Basic client-side email format validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        showNotification("Please enter a valid email address.", false);
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        showNotification("Passwords do not match!", false);
+        return;
+      }
+
+      const formData = new FormData(signupForm);
+
+      try {
+        const response = await fetch(appsScriptURL, {
+          method: 'POST',
+          body: formData
+        });
+
+        const result = await response.json();
+
+        if (result.status === 'success') {
+          showNotification("Data stored successfully", true);
+          // Set the login status in localStorage for new signups
+          localStorage.setItem('isLoggedIn', 'true');
+          // If the server sends a rememberMeToken (e.g., from signup with remember me), store it
+          if (result.rememberMeToken) {
+            localStorage.setItem('rememberMeToken', result.rememberMeToken);
+          }
+          setTimeout(() => {
+            window.location.href = "launch.html";
+          }, 1500);
+        } else {
+          showNotification(result.message || "Signup failed", false);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        showNotification("Error submitting form", false);
+      }
+    });
+  </script>
+
+</body>
+</html>

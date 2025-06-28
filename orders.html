@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>eco.MITRA | Orders</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #1a1a2e;
+      color: #e0e0e0;
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    button {
+      font-family: 'Roboto', sans-serif;
+      cursor: pointer;
+      border: none;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .top-nav {
+      background-color: #2a2a3a;
+      color: #e0e0e0;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+      flex-wrap: wrap;
+    }
+
+    .top-nav .logo {
+      font-size: 28px;
+      font-weight: 700;
+      color: #e0e0e0;
+    }
+
+    .top-nav .logo span {
+      color: #ff5722;
+    }
+
+    .nav-links button {
+      background-color: #007bff;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 6px;
+      margin-left: 15px;
+      font-size: 0.95rem;
+      box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+    }
+
+    .nav-links button:hover {
+      background-color: #0056b3;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 123, 255, 0.5);
+    }
+
+    main {
+      flex: 1;
+      padding: 30px;
+      max-width: 100%;
+      margin: 20px auto;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 2.2rem;
+      color: #ff5722;
+    }
+
+    #empty-orders-message {
+      text-align: center;
+      color: #b0b0b0;
+      font-size: 1.2rem;
+      margin-top: 50px;
+      display: none;
+    }
+
+    #orders-list-wrapper {
+      overflow-x: auto;
+      padding-bottom: 10px;
+    }
+
+    #orders-list-container {
+      display: flex;
+      flex-direction: row;
+      gap: 20px;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+    }
+
+    .order-card {
+      background-color: #2a2a3a;
+      padding: 20px;
+      border-radius: 10px;
+      min-width: 300px;
+      flex-shrink: 0;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4);
+      border: 1px solid #444466;
+    }
+
+    .order-card h3 {
+      font-size: 1.5rem;
+      color: #007bff;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #444466;
+      padding-bottom: 10px;
+    }
+
+    .order-card p {
+      font-size: 1rem;
+      margin-bottom: 8px;
+      color: #e0e0e0;
+    }
+
+    .order-card p strong {
+      color: #e0e0e0;
+    }
+
+    .order-total {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #4ade80;
+      margin-top: 15px;
+      text-align: right;
+    }
+
+    .item-list {
+      list-style: none;
+      padding: 0;
+      margin-top: 15px;
+      border-top: 1px dashed #444466;
+      padding-top: 15px;
+    }
+
+    .item-list h4 {
+      font-size: 1.1rem;
+      color: #b0b0b0;
+      margin-bottom: 10px;
+    }
+
+    .item-list li {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+      font-size: 0.95rem;
+      color: #b0b0b0;
+    }
+
+    .item-list li img {
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
+      border-radius: 4px;
+      margin-right: 15px;
+      background-color: #fff;
+      padding: 3px;
+    }
+
+    .order-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .order-actions button {
+      padding: 8px 15px;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: white;
+    }
+
+    .track-btn {
+      background-color: #ffc107;
+      color: #333;
+    }
+
+    .track-btn:hover {
+      background-color: #e0a800;
+    }
+
+    .cancel-btn {
+      background-color: #dc3545;
+    }
+
+    .cancel-btn:hover {
+      background-color: #c82333;
+    }
+
+    .invoice-btn {
+      background-color: #17a2b8;
+    }
+
+    .invoice-btn:hover {
+      background-color: #138496;
+    }
+
+    .site-footer {
+      background-color: #2a2a3a;
+      color: #e0e0e0;
+      padding: 30px 40px;
+      margin-top: 40px;
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 20px;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.4);
+    }
+
+    .site-footer h4 {
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+      color: #ff5722;
+    }
+
+    .site-footer ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .site-footer ul li {
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+      color: #b0b0b0;
+    }
+
+    .site-footer ul li:hover {
+      color: #e0e0e0;
+      cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      .top-nav {
+        flex-direction: column;
+        align-items: center;
+        padding: 15px;
+      }
+
+      .nav-links {
+        margin-top: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .nav-links button {
+        margin-left: 0;
+      }
+
+      main {
+        padding: 20px;
+        margin: 10px auto;
+      }
+
+      .site-footer {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+      }
+
+      .site-footer div {
+        margin-bottom: 20px;
+      }
+    }
+  </style>
+</head>
+<body onload="loadOrders()">
+
+  <header class="top-nav">
+    <div class="logo">eco.<span>MITRA</span></div>
+    <div class="nav-links">
+      <button onclick="window.location.href='launch.html'">Home</button>
+      <button onclick="window.location.href='orders.html'">Orders</button>
+      <button onclick="window.location.href='cart.html'">Cart 🛒</button>
+    </div>
+  </header>
+
+  <main>
+    <h2>Your Orders</h2>
+    <div id="orders-list-wrapper">
+      <div id="orders-list-container"></div>
+    </div>
+    <p id="empty-orders-message">You haven't placed any orders yet. Start shopping!</p>
+  </main>
+
+  <footer class="site-footer">
+    <div>
+      <h4>Get to Know Us</h4>
+      <ul>
+        <li>About Us</li>
+        <li>Careers</li>
+        <li>Press Releases</li>
+      </ul>
+    </div>
+    <div>
+      <h4>Connect with Us</h4>
+      <ul>
+        <li>Facebook</li>
+        <li>Twitter</li>
+        <li>Instagram</li>
+      </ul>
+    </div>
+    <div>
+      <h4>Let Us Help You</h4>
+      <ul>
+        <li>Your Account</li>
+        <li>Returns Centre</li>
+        <li>Help</li>
+      </ul>
+    </div>
+  </footer>
+
+  <script>
+  const ORDERS_API_URL = 'https://script.google.com/macros/s/AKfycbw-5-GuU23zw2ojNGinUnt1LXqRj584qoGfPM3K4eH3sRxc_9w_CWkt-6C-aHk7xCrwYg/exec'; // Replace with your deployed Apps Script URL
+
+    function loadOrders() {
+      const orders = JSON.parse(localStorage.getItem("orders")) || [];
+      const ordersListContainer = document.getElementById("orders-list-container");
+      const emptyOrdersMessage = document.getElementById("empty-orders-message");
+
+      ordersListContainer.innerHTML = "";
+
+      if (orders.length === 0) {
+        emptyOrdersMessage.style.display = "block";
+      } else {
+        emptyOrdersMessage.style.display = "none";
+        orders.slice().reverse().forEach(order => {
+          const orderCard = document.createElement("div");
+          orderCard.classList.add("order-card");
+          orderCard.innerHTML = `
+            <h3>Order ID: ${order.id}</h3>
+            <p><strong>Date:</strong> ${order.date} at ${order.time}</p>
+            <p><strong>Status:</strong> ${order.status}</p>
+            <p><strong>Tracking No:</strong> ${order.trackingNumber || 'N/A'}</p>
+            <p><strong>Payment Method:</strong> ${order.paymentMethod ? order.paymentMethod.toUpperCase() : 'N/A'}</p>
+            <h4>Delivery Address:</h4>
+            <p>${order.customer.fullName}</p>
+            <p>${order.customer.streetAddress}, ${order.customer.city}</p>
+            <p>${order.customer.state} - ${order.customer.zipCode}</p>
+            <p>Phone: ${order.customer.phoneNumber}</p>
+            <ul class="item-list">
+              <h4>Items:</h4>
+              ${order.items.map(item => `
+                <li>
+                  <img src="${item.image}" alt="${item.name}">
+                  ${item.name} (Qty: ${item.quantity || 1}) - $${(item.price * (item.quantity || 1)).toFixed(2)}
+                </li>
+              `).join('')}
+            </ul>
+            <p class="order-total">Total: $${order.total.toFixed(2)}</p>
+            <div class="order-actions">
+              <button class="track-btn" onclick="trackOrder('${order.trackingNumber}')">Track Package</button>
+              <button class="cancel-btn" onclick="cancelOrder('${order.id}')">Cancel Order</button>
+              <button class="invoice-btn" onclick="downloadInvoice('${order.id}')">Download Invoice</button>
+            </div>
+          `;
+          ordersListContainer.appendChild(orderCard);
+        });
+      }
+    }
+
+    function trackOrder(trackingNumber) {
+      const statusUpdates = [
+        "Order confirmed.",
+        "Processing at warehouse.",
+        "Shipped. Estimated delivery in 3-5 business days.",
+        "Out for delivery.",
+        "Delivered."
+      ];
+      const randomStatus = statusUpdates[Math.floor(Math.random() * statusUpdates.length)];
+      alert(`Tracking Number: ${trackingNumber}\nStatus: ${randomStatus}`);
+    }
+
+    function cancelOrder(orderId) {
+      if (confirm(`Are you sure you want to cancel order ${orderId}? This action cannot be undone.`)) {
+        let orders = JSON.parse(localStorage.getItem("orders")) || [];
+        orders = orders.filter(order => order.id !== orderId);
+        localStorage.setItem("orders", JSON.stringify(orders));
+        alert(`Order ${orderId} has been cancelled.`);
+        loadOrders();
+      }
+    }
+
+
+    function downloadInvoice(orderId) {
+      const orders = JSON.parse(localStorage.getItem("orders")) || [];
+      const order = orders.find(o => o.id === orderId);
+
+      if (!order) {
+        alert("Order not found for invoice.");
+        return;
+      }
+
+      let invoiceContent = `ShopEase Invoice\n\n`;
+      invoiceContent += `Order ID: ${order.id}\n`;
+      invoiceContent += `Date: ${order.date} at ${order.time}\n`;
+      invoiceContent += `Status: ${order.status}\n`;
+      invoiceContent += `Payment Method: ${order.paymentMethod ? order.paymentMethod.toUpperCase() : 'N/A'}\n`;
+      invoiceContent += `Tracking Number: ${order.trackingNumber || 'N/A'}\n\n`;
+
+      invoiceContent += `Customer Details:\n`;
+      invoiceContent += `Name: ${order.customer.fullName}\n`;
+      invoiceContent += `Address: ${order.customer.streetAddress}, ${order.customer.city}, ${order.customer.state} - ${order.customer.zipCode}\n`;
+      invoiceContent += `Phone: ${order.customer.phoneNumber}\n\n`;
+
+      invoiceContent += `Items:\n`;
+      order.items.forEach((item, index) => {
+        invoiceContent += `${index + 1}. ${item.name} (Qty: ${item.quantity || 1}) - $${(item.price * (item.quantity || 1)).toFixed(2)}\n`;
+      });
+
+      invoiceContent += `\n-----------------------------------\n`;
+      invoiceContent += `Total: $${order.total.toFixed(2)}\n`;
+      invoiceContent += `-----------------------------------\n\n`;
+      invoiceContent += `Thank you for shopping with ShopEase!`;
+
+      const blob = new Blob([invoiceContent], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `invoice_${order.id}.txt`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+  </script>
+
+</body>
+</html>

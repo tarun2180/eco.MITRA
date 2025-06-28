@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard | eco.MITRA</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* --- General Reset & Base Styles --- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #1a1a2e;
+      color: #e0e0e0;
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    button {
+      font-family: 'Roboto', sans-serif;
+      cursor: pointer;
+      border: none;
+      transition: all 0.3s ease;
+    }
+
+    /* --- Moderate Animations --- */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    /* --- Header (Top Navigation) --- */
+    .top-nav {
+      background-color: #2a2a3a;
+      color: #e0e0e0;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+      flex-wrap: wrap;
+      animation: slideUp 0.5s ease-out;
+    }
+
+    .top-nav .logo {
+      font-size: 28px;
+      font-weight: 700;
+      color: #e0e0e0;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .top-nav .logo:hover {
+      transform: scale(1.05);
+    }
+
+    .top-nav .logo span {
+      color: #ff5722;
+    }
+
+    .nav-links button {
+      background-color: #007bff;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 6px;
+      margin-left: 15px;
+      font-size: 0.95rem;
+      box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .nav-links button:hover {
+      background-color: #0056b3;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 123, 255, 0.5);
+    }
+
+    /* --- Sidebar Navigation --- */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: -380px;
+      width: 380px;
+      height: 100vh;
+      background-color: #2a2a3a;
+      box-shadow: 2px 0 15px rgba(0, 0, 0, 0.5);
+      transition: left 0.3s ease;
+      z-index: 1000;
+      overflow-y: auto;
+      border-right: 1px solid #444466;
+    }
+
+    .sidebar.open {
+      left: 0;
+    }
+
+    .sidebar-header {
+      background-color: #1a1a2e;
+      padding: 25px;
+      border-bottom: 1px solid #444466;
+      position: relative;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 25px;
+      background: none;
+      color: #e0e0e0;
+      font-size: 28px;
+      padding: 5px;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .close-btn:hover {
+      background-color: #444466;
+      color: #ffffff;
+      transform: rotate(90deg);
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .user-avatar {
+      width: 70px;
+      height: 70px;
+      background: linear-gradient(45deg, #007bff, #0056b3);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 28px;
+      font-weight: bold;
+      margin-right: 20px;
+      box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+    }
+
+    .user-details h3 {
+      color: #ffffff;
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+
+    .user-details p {
+      color: #b0b0b0;
+      font-size: 14px;
+    }
+
+    .sidebar-menu {
+      padding: 0;
+    }
+
+    .menu-section {
+      border-bottom: 1px solid #444466;
+    }
+
+    .menu-section-title {
+      padding: 20px 25px;
+      background-color: #1a1a2e;
+      color: #ff5722;
+      font-weight: 600;
+      font-size: 16px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .menu-item {
+      display: block;
+      padding: 18px 25px;
+      color: #e0e0e0;
+      transition: all 0.3s ease;
+      border-bottom: 1px solid rgba(68, 68, 102, 0.3);
+      position: relative;
+    }
+
+    .menu-item:hover {
+      background-color: #3a3a5a;
+      color: #ffffff;
+      transform: translateX(8px);
+    }
+
+    .menu-item::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background-color: #007bff;
+      transform: scaleY(0);
+      transition: transform 0.3s ease;
+    }
+
+    .menu-item:hover::before {
+      transform: scaleY(1);
+    }
+
+    .menu-item-icon {
+      display: inline-block;
+      width: 24px;
+      margin-right: 18px;
+      text-align: center;
+      font-size: 18px;
+    }
+
+    .menu-item-text {
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    /* --- Overlay --- */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.6);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      z-index: 999;
+    }
+
+    .overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* --- Main Content --- */
+    .main-content {
+      flex: 1;
+      padding: 40px;
+      animation: fadeIn 0.6s ease-out;
+    }
+
+    .dashboard-header {
+      text-align: center;
+      margin-bottom: 50px;
+      animation: slideUp 0.7s ease-out;
+    }
+
+    .dashboard-header h1 {
+      font-size: 3rem;
+      color: #ff5722;
+      margin-bottom: 15px;
+    }
+
+    .dashboard-header p {
+      color: #b0b0b0;
+      font-size: 1.2rem;
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 30px;
+      margin-top: 50px;
+    }
+
+    .dashboard-card {
+      background-color: #2a2a3a;
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+      border: 1px solid #444466;
+      transition: all 0.3s ease;
+      animation: slideUp 0.8s ease-out;
+    }
+
+    .dashboard-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .dashboard-card h3 {
+      color: #ffffff;
+      font-size: 1.4rem;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+    }
+
+    .dashboard-card h3::before {
+      margin-right: 12px;
+      font-size: 1.8rem;
+    }
+
+    .dashboard-card.orders h3::before { content: '📦'; }
+    .dashboard-card.profile h3::before { content: '👤'; }
+    .dashboard-card.address h3::before { content: '📍'; }
+    .dashboard-card.payment h3::before { content: '💳'; }
+    .dashboard-card.cart h3::before { content: '🛒'; }
+    .dashboard-card.support h3::before { content: '❓'; }
+
+    .dashboard-card p {
+      color: #b0b0b0;
+      margin-bottom: 25px;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    .dashboard-card button {
+      background-color: #007bff;
+      color: white;
+      padding: 12px 25px;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+
+    .dashboard-card button:hover {
+      background-color: #0056b3;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+    }
+
+    /* --- Menu Toggle Button --- */
+    .menu-toggle {
+      background-color: #007bff;
+      color: white;
+      padding: 15px 25px;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 30px;
+      box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .menu-toggle:hover {
+      background-color: #0056b3;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 123, 255, 0.5);
+    }
+
+    /* --- Responsive Design --- */
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 320px;
+        left: -320px;
+      }
+      
+      .main-content {
+        padding: 25px;
+      }
+      
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+      }
+      
+      .dashboard-header h1 {
+        font-size: 2.2rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .sidebar {
+        width: 100%;
+        left: -100%;
+      }
+      
+      .main-content {
+        padding: 20px;
+      }
+      
+      .dashboard-header h1 {
+        font-size: 2rem;
+      }
+      
+      .top-nav {
+        padding: 12px 20px;
+      }
+      
+      .top-nav .logo {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Overlay -->
+  <div class="overlay" id="overlay"></div>
+
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <button class="close-btn" id="closeSidebar">&times;</button>
+      <div class="user-info">
+        <div class="user-avatar">JD</div>
+        <div class="user-details">
+          <h3>John Doe</h3>
+          <p>john.doe@email.com</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-menu">
+      <!-- Account Settings -->
+      <div class="menu-section">
+        <div class="menu-section-title">Account Settings</div>
+        <a href="#" class="menu-item">
+          <span class="menu-item-icon">👤</span>
+          <span class="menu-item-text">Your Profile</span>
+        </a>
+        <a href="#" class="menu-item">
+          <span class="menu-item-icon">✏️</span>
+          <span class="menu-item-text">Update Profile</span>
+        </a>
+        <a href="#" class="menu-item">
+          <span class="menu-item-icon">🔒</span>
+          <span class="menu-item-text">Change Password</span>
+        </a>
+        <a href="#" class="menu-item">
+          <span class="menu-item-icon">📧</span>
+          <span class="menu-item-text">Email Preferences</span>
+        </a>
+        <a href="#" class="menu-item">
+          <span class="menu-item-icon">🔔</span>
+          <span class="menu-item-text">Notification Settings</span>
+        </a>
+      </div>
+
+      <!-- Address & Delivery -->
+      <div class="menu-section">
+        <div class="menu-section-title">Address & Delivery</div>
+        <a href="#" class="menu-item">
+          <span class="menu-item-icon">📍</span>
+          <span class="menu-item-text">Manage Addresses</span>
+        </a>
+        <a href="#" class="menu-item">
+          <span class="menu-item-icon">➕</span>
+          <span class="menu-item-text">Add New Address</span>
+        </a>
+        <a href="#" class="menu-item">
+          <span class="menu-item-icon">🚚</span>
+          <span class="menu-item-text">Delivery Preferences</span>
+        </a>
+        <a href="#" class="menu-item">
+          <span class="menu-item-icon">📦</span>
+          <span class="menu-item-text">Delivery Instructions</span>
+        </a>
+      </div>
+
+      <!-- Orders & Shopping -->
+      <div class="menu-section">
+        <div class="menu-section-title">Orders & Shopping</div>
+        <a href="orders.html" class="menu-item">
+          <span class="menu-item-icon">📦</span>
+          <span class="menu-item-text">Your Orders</span>
+        </a>
+        <a href="cart.html" class="menu-item">
+          <span class="menu-item-icon">🛒</span>
+          <span class="menu-item-text">Shopping Cart</span>
+        </a>
+        <a href="#" class="menu-item">
+          <span class="menu-item-icon">❤️</span>
+          <span class="menu-item-text">Wishlist</span>
+        </a>
+        <a href="#" class="menu-item">
+          <span class="menu-item-icon">🔄</span>
+          <span class="menu-item-text">Returns & Refunds</span>
+        </a>
+        <a href="#" class="menu-item">
+          <span class="menu-item-icon">⭐</span>
+          <span class="menu-item-text">Reviews & Ratings</span>
+        </a>
+      </div>
+
+      <!-- Payment & Billing -->
+      <div class="menu-section">
+        <div class="menu-section-title">Payment & Billing</div>
+        <a href="#" class="menu-item">
+          <span class="menu-item-icon">💳</span>
+          <span class="menu-item-text">Payment Methods</span>
+        </a>
+        <a href="#" class="menu-item">
+          <span class="menu-item-icon">🧾</span>
+          <span class="menu-item-text">Billing History</span>
+        </a>
+        <a href="#" class="menu-item">
+          <span class="menu-item-icon">🎁</span>
+          <span class="menu-item-text">Gift Cards & Vouchers</span>
+        </a>
+        <a href="#" class="menu-item">
+          <span class="menu-item-icon">💰</span>
+          <span class="menu-item-text">Wallet Balance</span>
+        </a>
+      </div>
+
+      <!-- Subscriptions & Services -->
+      <div class="menu-section">
+        <div class="menu-section-title">Subscriptions & Services</div>
+        <a href="#" class="menu-item">
+          <span class="menu-item-icon">🔄</span>
+          <span class="menu-item-text">Recurring Orders</span>
+        </a>
+        <a href="#" class="menu-item">
+          <span class="menu-item-icon">⚡</span>
+          <span class="menu-item-text">Premium Membership</span>
+        </a>
+        <a href="#" class="menu-item">
+          <span class="menu-item-icon">📱</span>
+          <span class="menu-item-text">Mobile App</span>
+        </a>
+      </div>
+
+      <!-- Support & Help -->
+      <div class="menu-section">
+        <div class="menu-section-title">Support & Help</div>
+        <a href="#" class="menu-item">
+          <span class="menu-item-icon">❓</span>
+          <span class="menu-item-text">Help Center</span>
+        </a>
+        <a href="#" class="menu-item">
+          <span class="menu-item-icon">💬</span>
+          <span class="menu-item-text">Contact Support</span>
+        </a>
+        <a href="#" class="menu-item">
+          <span class="menu-item-icon">📞</span>
+          <span class="menu-item-text">Call Us</span>
+        </a>
+        <a href="#" class="menu-item">
+          <span class="menu-item-icon">📝</span>
+          <span class="menu-item-text">Feedback</span>
+        </a>
+        <a href="#" class="menu-item">
+          <span class="menu-item-icon">⚙️</span>
+          <span class="menu-item-text">Settings</span>
+        </a>
+      </div>
+
+      <!-- Logout -->
+      <div class="menu-section">
+        <a href="login.html" class="menu-item" style="color: #ff5722;">
+          <span class="menu-item-icon">🚪</span>
+          <span class="menu-item-text">Sign Out</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="top-nav">
+    <div class="logo" onclick="window.location.href='launch.html'">eco.<span>MITRA</span></div>
+    <div class="nav-links">
+      <button onclick="window.location.href='login.html'">Login</button>
+      <button onclick="window.location.href='orders.html'">Orders</button>
+      <button onclick="window.location.href='cart.html'">Cart 🛒</button>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <button class="menu-toggle" id="menuToggle">
+      <span>☰</span>
+      <span>Open Dashboard Menu</span>
+    </button>
+    
+    <div class="dashboard-header">
+      <h1>Welcome to Your Dashboard</h1>
+      <p>Manage your account, orders, and preferences all in one place</p>
+    </div>
+
+    <div class="dashboard-grid">
+      <div class="dashboard-card orders">
+        <h3>Recent Orders</h3>
+        <p>Track your recent purchases and delivery status. View order history and manage returns.</p>
+        <button onclick="window.location.href='orders.html'">View Orders</button>
+      </div>
+
+      <div class="dashboard-card profile">
+        <h3>Account Information</h3>
+        <p>Update your personal details, preferences, and account settings.</p>
+        <button id="openProfileMenu">Manage Profile</button>
+      </div>
+
+      <div class="dashboard-card address">
+        <h3>Address Book</h3>
+        <p>Manage your delivery addresses and set delivery preferences.</p>
+        <button id="openAddressMenu">Manage Addresses</button>
+      </div>
+
+      <div class="dashboard-card payment">
+        <h3>Payment Methods</h3>
+        <p>Add or update your payment information and view billing history.</p>
+        <button id="openPaymentMenu">Manage Payments</button>
+      </div>
+
+      <div class="dashboard-card cart">
+        <h3>Shopping Cart</h3>
+        <p>Review items in your cart and proceed to checkout.</p>
+        <button onclick="window.location.href='cart.html'">View Cart</button>
+      </div>
+
+      <div class="dashboard-card support">
+        <h3>Help & Support</h3>
+        <p>Get help with your orders, account, and find answers to common questions.</p>
+        <button id="openSupportMenu">Get Help</button>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Get elements
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    const menuToggle = document.getElementById('menuToggle');
+    const closeSidebar = document.getElementById('closeSidebar');
+    const openProfileMenu = document.getElementById('openProfileMenu');
+    const openAddressMenu = document.getElementById('openAddressMenu');
+    const openPaymentMenu = document.getElementById('openPaymentMenu');
+    const openSupportMenu = document.getElementById('openSupportMenu');
+
+    // Open sidebar
+    function openSidebarMenu() {
+      sidebar.classList.add('open');
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    // Close sidebar
+    function closeSidebarMenu() {
+      sidebar.classList.remove('open');
+      overlay.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+
+    // Event listeners
+    menuToggle.addEventListener('click', openSidebarMenu);
+    closeSidebar.addEventListener('click', closeSidebarMenu);
+    overlay.addEventListener('click', closeSidebarMenu);
+
+    // Quick access buttons
+    openProfileMenu.addEventListener('click', () => {
+      openSidebarMenu();
+      // Scroll to account settings section
+      setTimeout(() => {
+        document.querySelector('.menu-section').scrollIntoView({ behavior: 'smooth' });
+      }, 300);
+    });
+
+    openAddressMenu.addEventListener('click', () => {
+      openSidebarMenu();
+      // Scroll to address section
+      setTimeout(() => {
+        document.querySelectorAll('.menu-section')[1].scrollIntoView({ behavior: 'smooth' });
+      }, 300);
+    });
+
+    openPaymentMenu.addEventListener('click', () => {
+      openSidebarMenu();
+      // Scroll to payment section
+      setTimeout(() => {
+        document.querySelectorAll('.menu-section')[3].scrollIntoView({ behavior: 'smooth' });
+      }, 300);
+    });
+
+    openSupportMenu.addEventListener('click', () => {
+      openSidebarMenu();
+      // Scroll to support section
+      setTimeout(() => {
+        document.querySelectorAll('.menu-section')[5].scrollIntoView({ behavior: 'smooth' });
+      }, 300);
+    });
+
+    // Close sidebar on escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeSidebarMenu();
+      }
+    });
+
+    // Prevent sidebar from closing when clicking inside it
+    sidebar.addEventListener('click', (e) => {
+      e.stopPropagation();
+    });
+
+    // Add smooth scrolling for menu items
+    document.querySelectorAll('.menu-item').forEach(item => {
+      item.addEventListener('click', (e) => {
+        // Add a subtle click effect
+        item.style.transform = 'translateX(12px)';
+        setTimeout(() => {
+          item.style.transform = '';
+        }, 150);
+      });
+    });
+  </script>
+
+</body>
+</html>

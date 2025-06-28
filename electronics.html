@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>eeco.MITRA | Electronics</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* --- General Reset & Base Styles (Consistent with index.html) --- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #1a1a2e; /* Darker background */
+      color: #e0e0e0; /* Lighter text for contrast */
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    button {
+      font-family: 'Roboto', sans-serif;
+      cursor: pointer;
+      border: none;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    /* --- Header (Top Navigation) - Consistent with index.html --- */
+    .top-nav {
+      background-color: #0f0f1a;
+      padding: 1rem 2.5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .logo {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #ffffff;
+      padding: 5px 0;
+    }
+
+    .logo span {
+      color: #ff5722;
+      font-weight: 500;
+    }
+
+    .search-bar {
+      display: flex;
+      flex: 1;
+      max-width: 500px;
+      margin: 10px 20px;
+      order: 2;
+    }
+
+    .search-bar input {
+      flex: 1;
+      padding: 0.8rem 1.2rem;
+      border: 1px solid #333;
+      border-radius: 25px 0 0 25px;
+      outline: none;
+      background-color: #2a2a3a;
+      color: #e0e0e0;
+      font-size: 1rem;
+    }
+
+    .search-bar input::placeholder {
+      color: #888;
+    }
+
+    .search-bar button {
+      background-color: #ff5722;
+      color: white;
+      padding: 0.8rem 1.2rem;
+      border-radius: 0 25px 25px 0;
+      font-size: 1rem;
+      border: none;
+    }
+
+    .search-bar button:hover {
+      background-color: #007bff;
+      transform: translateY(-1px);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 15px;
+      order: 3;
+    }
+
+    .nav-links button {
+      background-color: #ff5722;
+      color: white;
+      padding: 0.7rem 1.4rem;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .nav-links button:hover {
+      background-color: #007bff;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    }
+
+    /* --- Category Navigation (Consistent with index.html) --- */
+    .category-nav {
+      background-color: #1a1a2e;
+      padding: 15px 2.5%;
+      border-bottom: 1px solid #333;
+      display: flex;
+      justify-content: space-around;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .category-nav::-webkit-scrollbar {
+      display: none;
+    }
+
+    .category-nav button {
+      background: none;
+      color: #c0c0c0;
+      padding: 0.7rem 1.2rem;
+      font-size: 1rem;
+      font-weight: 400;
+      border-radius: 20px;
+      border: 1px solid transparent;
+      white-space: nowrap;
+    }
+
+    .category-nav button:hover {
+      background-color: #2a2a3a;
+      color: #ff5722;
+      border-color: #ff5722;
+      transform: translateY(-1px);
+    }
+
+    /* --- Main Content Area --- */
+    main {
+      flex: 1;
+      padding: 20px 2.5%;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+
+    /* --- Product Section (Consistent with index.html) --- */
+    .product-section h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 2.5rem;
+      color: #ff5722;
+      position: relative;
+      padding-bottom: 10px;
+    }
+
+    .product-section h2::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 3px;
+      background-color: #ff5722;
+      border-radius: 2px;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      justify-content: center;
+    }
+
+    .product-card {
+      background-color: #2a2a3a;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .product-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5);
+    }
+
+    .product-card img {
+      width: 100%;
+      max-height: 200px;
+      object-fit: contain;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      background-color: #3e3e4a;
+      padding: 10px;
+    }
+
+    .product-card h3 {
+      font-size: 1.4rem;
+      margin-bottom: 8px;
+      color: #ffffff;
+      font-weight: 500;
+    }
+
+    .product-card .rating {
+      color: #ffd700;
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+    }
+
+    .product-card p {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #ff5722;
+      margin-bottom: 15px;
+    }
+
+    .product-card button {
+      background-color: #007bff;
+      color: white;
+      padding: 0.9rem 1.8rem;
+      border-radius: 30px;
+      font-size: 1.05rem;
+      font-weight: 500;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .product-card button:hover {
+      background-color: #0056b3;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    }
+
+    /* --- Footer (Consistent with index.html) --- */
+    .site-footer {
+      background-color: #0f0f1a;
+      color: #c0c0c0;
+      padding: 40px 2.5%;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 30px;
+      box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .site-footer h4 {
+      color: #ff5722;
+      font-size: 1.3rem;
+      margin-bottom: 15px;
+      border-bottom: 2px solid #333;
+      padding-bottom: 8px;
+      display: inline-block;
+    }
+
+    .site-footer ul {
+      list-style: none;
+    }
+
+    .site-footer ul li {
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+    }
+
+    .site-footer ul li:hover {
+      color: #ffffff;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    /* --- Responsive Adjustments (Consistent with index.html) --- */
+    @media (max-width: 1024px) {
+      .top-nav {
+        flex-direction: row;
+        justify-content: center;
+        gap: 15px;
+      }
+      .logo {
+        flex-basis: 100%;
+        text-align: center;
+        margin-bottom: 10px;
+      }
+      .search-bar {
+        order: 3;
+        flex-grow: 1;
+        max-width: none;
+        margin: 10px 0;
+      }
+      .nav-links {
+        order: 1;
+        flex-grow: 1;
+        justify-content: center;
+      }
+      .category-nav {
+        justify-content: flex-start;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .logo {
+        font-size: 1.8rem;
+      }
+      .top-nav {
+        padding: 0.8rem 15px;
+      }
+      .search-bar input, .search-bar button {
+        padding: 0.7rem 1rem;
+        font-size: 0.9rem;
+      }
+      .nav-links button {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
+      }
+      main {
+        padding: 20px 15px;
+      }
+      .product-section h2 {
+        font-size: 2rem;
+      }
+      .product-card {
+        padding: 15px;
+      }
+      .product-card h3 {
+        font-size: 1.2rem;
+      }
+      .product-card p {
+        font-size: 1.1rem;
+      }
+      .product-card button {
+        padding: 0.7rem 1.5rem;
+        font-size: 0.9rem;
+      }
+      .site-footer {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      .site-footer h4 {
+        border-bottom: none;
+        padding-bottom: 0;
+      }
+      .site-footer ul {
+        margin-bottom: 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .top-nav {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .logo {
+        margin-bottom: 15px;
+      }
+      .search-bar {
+        margin: 0 0 15px 0;
+      }
+      .nav-links {
+        flex-direction: column;
+        gap: 10px;
+      }
+      .nav-links button {
+        width: 100%;
+      }
+      .category-nav {
+        padding: 10px;
+      }
+      .product-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+   <header class="top-nav">
+    <div class="logo" onclick="window.location.href='dashboard.html'">eco.<span>MITRA</span></div>
+    <div class="search-bar">
+      <input type="text" placeholder="Search for products, brands and more">
+      <button id="search-button">🔍</button>
+    </div>
+    <div class="nav-links">
+      <button onclick="window.location.href='launch.html'">Home</button>
+      <button onclick="window.location.href='cart.html'">Cart 🛒</button>
+    </div>
+  </header>
+
+  <nav class="category-nav">
+    <button onclick="window.location.href='electronics.html'">Electronics</button>
+    <button onclick="window.location.href='fashions.html'">Fashions</button>
+    <button onclick="window.location.href='home.html'">Home</button>
+    <button onclick="window.location.href='appliances.html'">Appliances</button>
+    <button onclick="window.location.href='book.html'">Books</button>
+    <button onclick="window.location.href='toys.html'">Toys</button>
+  </nav>
+
+  <main>
+    <section class="electronics-section">
+      <h2>Top Electronics Picks High</h2>
+      <div class="product-grid" id="product-grid-container">
+        <div class="product-card" data-category="electronics" data-description="High Built with Apple inteligence .">
+          <img src="download (2).jpeg" alt="Mobile" />
+          <h3>Iphone 16</h3>
+          <div class="rating">★★★★☆</div>
+          <p>$1500.56</p>
+          <button onclick="addToCart('iPhone 16', 1500.56, 'download (2).jpeg')">Add to Cart</button>
+        </div>
+        <div class="product-card" data-category="electronics" data-description="High-definition Samsung mobile with smart features of AI.">
+          <img src="images (4).jpeg" alt="Samsung phone" />
+          <h3>Samsung S24 Ultra</h3>
+          <div class="rating">★★★☆☆</div>
+          <p>$1614.16</p>
+          <button onclick="addToCart('Samsung S24 Ultra', 1614.16, 'images (4).jpeg')">Add to Cart</button>
+        </div>
+        <div class="product-card" data-category="electronics" data-description="Mobile with edge display of 6000nits which gives long-lasting experiance.">
+          <img src="images (2).jpeg" alt="Vivo" />
+          <h3>Vivo V50</h3>
+          <div class="rating">★★★★★</div>
+          <p>$299.99</p>
+          <button onclick="addToCart('Vivo V50', 299.99, 'images (2).jpeg')">Add to Cart</button>
+        </div>
+        <div class="product-card" data-category="electronics" data-description="The phone with Latest Oxygen OS with built in Feature of AI.">
+          <img src="images (3).jpeg" alt="OnePlus" />
+          <h3>OnePlus Nord</h3>
+          <div class="rating">★★★★☆</div>
+          <p>$499.99</p>
+          <button onclick="addToCart('OnePlus Nord', 499.99, 'images (3).jpeg')">Add to Cart</button>
+        </div>
+        <div class="product-card" data-category="electronics" data-description="High-definition Samsung mobile with smart features of AI and life time WARRENTY.">
+          <img src="images (6).jpeg" alt="OnePlus 13" />
+          <h3>OnePlus 13</h3>
+          <div class="rating">★★★★☆</div>
+          <p>$499.99</p>
+          <button onclick="addToCart('OnePlus 13', 499.99, 'images (6).jpeg')">Add to Cart</button>
+        </div>
+        <div class="product-card" data-category="electronics" data-description="Smartest Flip phone with OPPO AI intelligence.">
+          <img src="images (5).jpeg" alt="Oppo" />
+          <h3>Oppo Find N2</h3>
+          <div class="rating">★★★★☆</div>
+          <p>$499.99</p>
+          <button onclick="addToCart('Oppo Find N2', 499.99, 'images (5).jpeg')">Add to Cart</button>
+        </div>
+        <div class="product-card" data-category="electronics" data-description="High-definition Samsung mobile with smart features of complete AI.">
+          <img src="images (8).jpeg" alt="Samsung s25" />
+          <h3>Samsung S25</h3>
+          <div class="rating">★★★★☆</div>
+          <p>$499.99</p>
+          <button onclick="addToCart('Samsung S25', 499.99, 'images (8).jpeg')">Add to Cart</button>
+        </div>
+        <div class="product-card" data-category="electronics" data-description="Moto with smooth Edge display with low latenc and DOLBY ATOMS experiance.">
+          <img src="images (7).jpeg" alt="Moto" />
+          <h3>Moto Edge</h3>
+          <div class="rating">★★★★☆</div>
+          <p>$499.99</p>
+          <button onclick="addToCart('Moto Edge', 499.99, 'images (7).jpeg')">Add to Cart</button>
+        </div>
+        <div class="product-card" data-category="electronics" data-description="BOAT Airdrop 141 with boat signature sound and controll with Boat app.">
+          <img src="1080x840_1._CB792019423_.gif" alt="Boat" />
+          <h3>Boat AirPods 141</h3>
+          <div class="rating">★★★★☆</div>
+          <p>$499.99</p>
+          <button onclick="addToCart('Boat AirPods 141', 499.99, '1080x840_1._CB792019423_.gif')">Add to Cart</button>
+        </div>
+        <div class="product-card" data-category="electronics" data-description="High-definition Samsung mobile with smart features of AI and FOLD type with ULTRA large display.">
+          <img src="795330468202408120724.jpg" alt="Boat" />
+          <h3>Samsun Fold 3</h3>
+          <div class="rating">★★★★☆</div>
+          <p>$499.99</p>
+          <button onclick="addToCart('Samsun Fold 3', 499.99, '795330468202408120724.jpg')">Add to Cart</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div>
+      <h4>Get to Know Us</h4>
+      <ul>
+        <li>About Us</li>
+        <li>Careers</li>
+        <li>Press Releases</li>
+      </ul>
+    </div>
+    <div>
+      <h4>Connect with Us</h4>
+      <ul>
+        <li>Facebook</li>
+        <li>Twitter</li>
+        <li>Instagram</li>
+      </ul>
+    </div>
+    <div>
+      <h4>Let Us Help You</h4>
+      <ul>
+        <li>Your Account</li>
+        <li>Returns Centre</li>
+        <li>Help</li>
+      </ul>
+    </div>
+  </footer>
+
+  <script>
+    function addToCart(name, price, image) {
+      const product = {
+        id: Date.now(),
+        name,
+        price,
+        image
+      };
+
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      cart.push(product);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      alert(`${name} added to cart!`);
+    }
+    
+  function setupSearch() {
+      const searchInput = document.getElementById('search-input');
+      const searchButton = document.getElementById('search-button');
+      const productGridContainer = document.getElementById('product-grid-container');
+
+      if (!searchInput || !searchButton || !productGridContainer) {
+        console.warn("Search elements not found on this page. Search functionality will not be active.");
+        return;
+      }
+
+      const allProductCards = Array.from(productGridContainer.getElementsByClassName('product-card'));
+
+      const performSearch = () => {
+        const query = searchInput.value.toLowerCase().trim();
+
+        allProductCards.forEach(card => {
+          const productName = card.querySelector('h3') ? card.querySelector('h3').textContent.toLowerCase() : '';
+          const productDescription = card.dataset.description ? card.dataset.description.toLowerCase() : '';
+          const productCategory = card.dataset.category ? card.dataset.category.toLowerCase() : '';
+
+          if (
+            productName.includes(query) ||
+            productDescription.includes(query) ||
+            productCategory.includes(query) ||
+            query === ''
+          ) {
+            card.style.display = 'flex';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      };
+
+      searchButton.addEventListener('click', performSearch);
+      searchInput.addEventListener('keyup', (event) => {
+        if (event.key === 'Enter') {
+          performSearch();
+        } else {
+          performSearch();
+        }
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      updateLoginLogoutButton();
+      setupSearch();
+    });
+  </script>
+
+</body>
+</html>

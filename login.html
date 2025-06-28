@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login | eco.mitra</title>
+  <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --accent: #ff5722;
+      --bg: #0d0d1a;
+      --bg-dark: #1a1a2e;
+      --card-bg: rgba(255, 255, 255, 0.05);
+      --input-bg: #2b2b3b;
+      --border: #444;
+      --text: #f5f5f5;
+      --subtext: #ccc;
+      --blue: #007bff;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: radial-gradient(circle at top left, #1a1a2e, #0d0d1a),
+                  url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><circle cx="50" cy="50" r="1" fill="%23222222"/></svg>') repeat;
+      background-blend-mode: overlay;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--text);
+      overflow: hidden;
+    }
+
+    dotlottie-player {
+      position: absolute;
+      top: 30px;
+      right: 30px;
+      width: 350px;
+      height: 350px;
+      opacity: 0.9;
+    }
+
+    .login-container {
+      background-color: var(--card-bg);
+      padding: 40px 35px;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+      max-width: 400px;
+      width: 90%;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      text-align: center;
+      z-index: 2;
+    }
+
+    .logo {
+      font-size: 2.3rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .logo span {
+      color: var(--accent);
+    }
+
+    h3 {
+      font-weight: 500;
+      margin-bottom: 30px;
+      font-size: 1.4rem;
+      color: var(--subtext);
+    }
+
+    form {
+      text-align: left;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 500;
+      font-size: 0.9rem;
+      color: var(--subtext);
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 15px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background-color: var(--input-bg);
+      color: var(--text);
+      margin-bottom: 20px;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.3s ease;
+    }
+
+    input:focus {
+      border-color: var(--accent);
+    }
+
+    .options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      font-size: 0.85rem;
+    }
+
+    .options a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .options input[type="checkbox"] {
+      margin-right: 5px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      border-radius: 30px;
+      border: none;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-bottom: 12px;
+      transition: all 0.3s ease;
+    }
+
+    button[type="submit"] {
+      background-color: var(--accent);
+      color: white;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #e64a19;
+    }
+
+    .skip-button {
+      background-color: var(--blue);
+      color: white;
+    }
+
+    .skip-button:hover {
+      background-color: #0056b3;
+    }
+
+    .divider {
+      height: 1px;
+      background-color: var(--border);
+      margin: 25px 0;
+    }
+
+    p {
+      font-size: 0.95rem;
+    }
+
+    p a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .notification {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: rgba(0, 0, 0, 0.85);
+      color: white;
+      padding: 12px 20px;
+      border-radius: 6px;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      z-index: 999;
+    }
+
+    .notification.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    @media (max-width: 480px) {
+      .login-container {
+        padding: 30px 20px;
+      }
+      dotlottie-player {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <dotlottie-player
+    src="https://lottie.host/c332f2d9-792f-4efe-b296-f7d630779b86/zuVjQbuQMs.lottie"
+    background="transparent"
+    speed="1"
+    loop
+    autoplay>
+  </dotlottie-player>
+
+  <div id="notificationPopup" class="notification"></div>
+
+  <div class="login-container">
+    <h2 class="logo">eco.<span>MITRA</span></h2>
+    <h3>Log In</h3>
+
+    <form id="loginForm">
+      <!-- THIS IS THE NEW LINE ADDED: It sends 'action=login' to your Apps Script -->
+      <input type="hidden" name="action" value="login">
+      <label for="email">Email or mobile number</label>
+      <input type="email" id="email" name="email" placeholder="Enter your email" required />
+
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" placeholder="Enter your password" required />
+
+      <div class="options">
+        <label><input type="checkbox" name="remember_me" /> Remember me</label>
+        <a href="#">Forgot Password?</a>
+      </div>
+
+      <button type="submit">Login</button>
+      <button type="button" class="skip-button" onclick="skipLogin()">Skip Login</button>
+    </form>
+
+    <div class="divider"></div>
+
+    <p>New to eco.MITRA? <a href="signup.html">Create your account</a></p>
+  </div>
+
+  <script>
+    // Make sure this URL is your deployed Google Apps Script Web App URL
+    const appsScriptURL = "https://script.google.com/macros/s/AKfycbxGcrGPbvZKW3XaFm4AAPtHPSSuCrUEdG9TT5n5dbWPeo055Ofd0lcHHkI52AFW20dB/exec";
+    const loginForm = document.getElementById('loginForm');
+    const notificationPopup = document.getElementById('notificationPopup');
+
+    function showNotification(message, isSuccess = true) {
+      notificationPopup.textContent = message;
+      notificationPopup.style.backgroundColor = isSuccess ? 'rgba(0, 128, 0, 0.9)' : 'rgba(255, 0, 0, 0.9)';
+      notificationPopup.classList.add('show');
+
+      setTimeout(() => {
+        notificationPopup.classList.remove('show');
+      }, 3000);
+    }
+
+    loginForm.addEventListener('submit', async function(event) {
+      event.preventDefault();
+
+      const formData = new FormData(loginForm);
+
+      try {
+        const response = await fetch(appsScriptURL, {
+          method: 'POST',
+          body: formData
+        });
+
+        const result = await response.json();
+
+        if (result.status === 'success') {
+          showNotification("Login Done", true);
+          // Set the login status in localStorage
+          localStorage.setItem('isLoggedIn', 'true');
+          // If the server sends a rememberMeToken, store it
+          if (result.rememberMeToken) {
+            localStorage.setItem('rememberMeToken', result.rememberMeToken);
+          }
+          setTimeout(() => {
+            window.location.href = "launch.html";
+          }, 1500);
+        }else {
+          showNotification(result.message || "An error occurred during login.", false);
+        }
+      } catch (error) {
+        console.error('Error submitting form:', error);
+        showNotification("Login Failed. Please try again.", false);
+      }
+    });
+
+    function skipLogin() {
+      window.location.href = "launch.html";
+    }
+  </script>
+</body>
+</html>

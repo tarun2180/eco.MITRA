@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>eco.MITTRA Launch</title>
+  <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Open+Sans:wght@400;600&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --primary-color: #8c7eff;
+      --secondary-color: #ff8c42;
+      --dark-background: #0d121c;
+      --medium-dark-background: #1a202c;
+      --text-light: #e0e0e0;
+      --text-dark: #ffffff;
+      --button-bg: #e54a4a;
+      --button-hover-bg: #cc3f3f;
+      --circle-color-red: rgba(255, 0, 0, 0.3);
+      --circle-color-green: rgba(0, 255, 0, 0.3);
+      --circle-color-blue: rgba(0, 0, 255, 0.3);
+      --circle-color-cyan: rgba(0, 255, 255, 0.3);
+      --circle-color-magenta: rgba(255, 0, 255, 0.3);
+      --circle-color-yellow: rgba(255, 255, 0, 0.3);
+      --neon-blue: #00ffff;
+      --neon-purple: #8a2be2;
+      --neon-green: #39ff14;
+    }
+
+    body {
+      margin: 0;
+      background: radial-gradient(circle at top left, var(--dark-background) 0%, var(--medium-dark-background) 100%);
+      color: var(--text-light);
+      font-family: 'Open Sans', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      height: 100vh;
+      text-align: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Moving Items Grid Animation - INCREASED SIZES */
+    .moving-items-grid {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .grid-item {
+      position: absolute;
+      width: 16px;  /* Increased from 8px */
+      height: 16px; /* Increased from 8px */
+      background: var(--neon-blue);
+      border-radius: 4px; /* Increased from 2px */
+      opacity: 0;
+      animation: moveItemsLeftToRight 12s linear infinite;
+      box-shadow: 0 0 16px var(--neon-blue); /* Increased glow */
+    }
+
+    .grid-item.type-2 {
+      background: var(--neon-green);
+      box-shadow: 0 0 16px var(--neon-green);
+      animation-duration: 15s;
+    }
+
+    .grid-item.type-3 {
+      background: var(--neon-purple);
+      box-shadow: 0 0 16px var(--neon-purple);
+      animation-duration: 18s;
+    }
+
+    .grid-item.type-4 {
+      background: var(--secondary-color);
+      box-shadow: 0 0 16px var(--secondary-color);
+      animation-duration: 10s;
+    }
+
+    /* Different rows with varying delays */
+    .grid-item:nth-child(1) { top: 10%; animation-delay: 0s; }
+    .grid-item:nth-child(2) { top: 15%; animation-delay: 2s; }
+    .grid-item:nth-child(3) { top: 25%; animation-delay: 4s; }
+    .grid-item:nth-child(4) { top: 35%; animation-delay: 1s; }
+    .grid-item:nth-child(5) { top: 45%; animation-delay: 6s; }
+    .grid-item:nth-child(6) { top: 55%; animation-delay: 3s; }
+    .grid-item:nth-child(7) { top: 65%; animation-delay: 8s; }
+    .grid-item:nth-child(8) { top: 75%; animation-delay: 5s; }
+    .grid-item:nth-child(9) { top: 85%; animation-delay: 7s; }
+    .grid-item:nth-child(10) { top: 20%; animation-delay: 9s; }
+    .grid-item:nth-child(11) { top: 30%; animation-delay: 11s; }
+    .grid-item:nth-child(12) { top: 40%; animation-delay: 1.5s; }
+    .grid-item:nth-child(13) { top: 50%; animation-delay: 3.5s; }
+    .grid-item:nth-child(14) { top: 60%; animation-delay: 5.5s; }
+    .grid-item:nth-child(15) { top: 70%; animation-delay: 7.5s; }
+
+    @keyframes moveItemsLeftToRight {
+      0% {
+        left: -40px; /* Increased from -20px */
+        opacity: 0;
+        transform: scale(0.5);
+      }
+      5% {
+        opacity: 1;
+        transform: scale(1);
+      }
+      95% {
+        opacity: 1;
+        transform: scale(1);
+      }
+      100% {
+        left: calc(100% + 40px); /* Increased from +20px */
+        opacity: 0;
+        transform: scale(0.5);
+      }
+    }
+
+    /* Enhanced Grid Items with Product Icons - INCREASED SIZES */
+    .grid-item.product-icon {
+      width: 24px;  /* Increased from 12px */
+      height: 24px; /* Increased from 12px */
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px; /* Increased from 6px */
+      color: white;
+      font-weight: bold;
+    }
+
+    .grid-item.product-icon::before {
+      content: '📱';
+      font-size: 16px; /* Increased from 8px */
+    }
+
+    .grid-item.product-icon.type-2::before {
+      content: '💻';
+    }
+
+    .grid-item.product-icon.type-3::before {
+      content: '🎧';
+    }
+
+    .grid-item.product-icon.type-4::before {
+      content: '⌚';
+    }
+
+    /* Futuristic Tech Elements */
+    .tech-grid {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(rgba(0, 255, 255, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 255, 0.1) 1px, transparent 1px);
+      background-size: 50px 50px;
+      animation: techGridPulse 4s ease-in-out infinite;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    @keyframes techGridPulse {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 0.7; }
+    }
+
+    .holographic-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, 
+        transparent 30%, 
+        rgba(0, 255, 255, 0.05) 50%, 
+        transparent 70%);
+      animation: holoScan 6s linear infinite;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    @keyframes holoScan {
+      0% { transform: translateX(-100%) skewX(-15deg); }
+      100% { transform: translateX(200%) skewX(-15deg); }
+    }
+
+    .data-streams {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .data-stream {
+      position: absolute;
+      width: 2px;
+      height: 100px;
+      background: linear-gradient(to bottom, transparent, var(--neon-blue), transparent);
+      animation: dataFlow 3s linear infinite;
+    }
+
+    .data-stream:nth-child(1) { left: 10%; animation-delay: 0s; }
+    .data-stream:nth-child(2) { left: 25%; animation-delay: 1s; }
+    .data-stream:nth-child(3) { left: 40%; animation-delay: 2s; }
+    .data-stream:nth-child(4) { left: 60%; animation-delay: 0.5s; }
+    .data-stream:nth-child(5) { left: 75%; animation-delay: 1.5s; }
+    .data-stream:nth-child(6) { left: 90%; animation-delay: 2.5s; }
+
+    @keyframes dataFlow {
+      0% { transform: translateY(-100px); opacity: 0; }
+      50% { opacity: 1; }
+      100% { transform: translateY(100vh); opacity: 0; }
+    }
+
+    .neural-network {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .neural-node {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: var(--neon-green);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--neon-green);
+      animation: neuralPulse 2s ease-in-out infinite;
+    }
+
+    .neural-node:nth-child(1) { top: 20%; left: 15%; animation-delay: 0s; }
+    .neural-node:nth-child(2) { top: 30%; left: 85%; animation-delay: 0.5s; }
+    .neural-node:nth-child(3) { top: 60%; left: 10%; animation-delay: 1s; }
+    .neural-node:nth-child(4) { top: 70%; left: 90%; animation-delay: 1.5s; }
+    .neural-node:nth-child(5) { top: 80%; left: 50%; animation-delay: 2s; }
+
+    @keyframes neuralPulse {
+      0%, 100% { 
+        transform: scale(1); 
+        box-shadow: 0 0 10px var(--neon-green); 
+      }
+      50% { 
+        transform: scale(1.5); 
+        box-shadow: 0 0 20px var(--neon-green), 0 0 30px var(--neon-green); 
+      }
+    }
+
+    .quantum-particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .particle {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: var(--neon-purple);
+      border-radius: 50%;
+      animation: quantumFloat 8s linear infinite;
+    }
+
+    .particle:nth-child(1) { left: 20%; animation-delay: 0s; }
+    .particle:nth-child(2) { left: 40%; animation-delay: 2s; }
+    .particle:nth-child(3) { left: 60%; animation-delay: 4s; }
+    .particle:nth-child(4) { left: 80%; animation-delay: 6s; }
+
+    @keyframes quantumFloat {
+      0% { 
+        transform: translateY(100vh) scale(0); 
+        opacity: 0; 
+      }
+      10% { 
+        opacity: 1; 
+        transform: scale(1); 
+      }
+      90% { 
+        opacity: 1; 
+      }
+      100% { 
+        transform: translateY(-100px) scale(0); 
+        opacity: 0; 
+      }
+    }
+
+    /* Original styles preserved */
+    .moving-grid {
+      position: absolute;
+      top: 0;
+      left: -200px;
+      width: 200%;
+      height: 100%;
+      background-image: 
+        linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
+      background-size: 40px 40px;
+      animation: moveGrid 60s linear infinite;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    @keyframes moveGrid {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    .background-circles-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      z-index: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .background-circles-container div {
+      position: absolute;
+      border-radius: 50%;
+      box-sizing: border-box;
+    }
+
+    .circle-red { width: 600px; height: 600px; border: 2px solid var(--circle-color-red); box-shadow: 0 0 15px var(--circle-color-red); animation: rotateClockwise 50s linear infinite, pulse3DCircle 3.8s ease-in-out infinite; }
+    .circle-green { width: 700px; height: 700px; border: 2px solid var(--circle-color-green); box-shadow: 0 0 15px var(--circle-color-green); animation: rotateCounterClockwise 60s linear infinite, pulse3DCircle 4s ease-in-out infinite; }
+    .circle-blue { width: 800px; height: 800px; border: 1.5px solid var(--circle-color-blue); box-shadow: 0 0 15px var(--circle-color-blue); animation: rotateClockwise 70s linear infinite, pulse3DCircle 4.2s ease-in-out infinite; }
+    .circle-cyan { width: 900px; height: 900px; border: 1.5px solid var(--circle-color-cyan); box-shadow: 0 0 15px var(--circle-color-cyan); animation: rotateCounterClockwise 80s linear infinite, pulse3DCircle 4.4s ease-in-out infinite; }
+    .circle-magenta { width: 1000px; height: 1000px; border: 1px solid var(--circle-color-magenta); box-shadow: 0 0 15px var(--circle-color-magenta); animation: rotateClockwise 90s linear infinite, pulse3DCircle 4.6s ease-in-out infinite; }
+    .circle-yellow { width: 1100px; height: 1100px; border: 1px solid var(--circle-color-yellow); box-shadow: 0 0 15px var(--circle-color-yellow); animation: rotateCounterClockwise 100s linear infinite, pulse3DCircle 4.8s ease-in-out infinite; }
+
+    @keyframes rotateClockwise {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes rotateCounterClockwise {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(-360deg); }
+    }
+
+    @keyframes pulse3DCircle {
+      0% { transform: perspective(1200px) translateZ(-50px) scale(0.9); opacity: 0.6; }
+      50% { transform: perspective(1200px) translateZ(50px) scale(1.1); opacity: 1; }
+      100% { transform: perspective(1200px) translateZ(-50px) scale(0.9); opacity: 0.6; }
+    }
+
+    .title-bar {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 15px 20px;
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: 600;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      color: var(--text-dark);
+      letter-spacing: 0.5px;
+      z-index: 2;
+      /* Enhanced with tech styling */
+      font-family: 'Orbitron', monospace;
+      border-bottom: 1px solid rgba(0, 255, 255, 0.3);
+      text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    }
+
+    .launch-content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background-color: rgba(0, 0, 0, 0.4);
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+      max-width: 90%;
+      width: 500px;
+      overflow: hidden;
+      isolation: isolate;
+      /* Enhanced with tech styling */
+      border: 1px solid rgba(0, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+    }
+
+    .launch-content::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: -1;
+      border-radius: 15px;
+    }
+
+    /* Enhanced tech border animation */
+    .launch-content::after {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple), var(--neon-green), var(--neon-blue));
+      border-radius: 17px;
+      z-index: -2;
+      animation: techBorderGlow 3s linear infinite;
+      opacity: 0.7;
+    }
+
+    @keyframes techBorderGlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    h1 {
+      font-size: 3.8rem;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: var(--text-dark);
+      letter-spacing: -1px;
+      animation: rotate3D 4s ease-in-out infinite;
+      text-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      /* Enhanced with tech glow */
+      filter: drop-shadow(0 0 10px rgba(140, 126, 255, 0.5));
+    }
+
+    h1 span {
+      color: var(--primary-color);
+      /* Enhanced tech effect */
+      text-shadow: 0 0 20px var(--primary-color);
+      animation: techTextGlow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes techTextGlow {
+      from { text-shadow: 0 0 20px var(--primary-color); }
+      to { text-shadow: 0 0 30px var(--primary-color), 0 0 40px var(--primary-color); }
+    }
+
+    @keyframes rotate3D {
+      0% { transform: perspective(1000px) rotateY(-15deg) scale(0.95); opacity: 0.8; }
+      50% { transform: perspective(1000px) rotateY(15deg) scale(1.05); opacity: 1; }
+      100% { transform: perspective(1000px) rotateY(-15deg) scale(0.95); opacity: 0.8; }
+    }
+
+    dotlottie-player {
+      margin-bottom: 30px;
+      animation: zoomIn 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+      opacity: 0;
+      /* Enhanced with tech glow */
+      filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.3));
+    }
+
+    @keyframes zoomIn {
+      from { opacity: 0; transform: scale(0.5); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .enter-button {
+      padding: 15px 35px;
+      font-size: 1.2rem;
+      background-color: var(--button-bg);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+      animation: pulse 2s infinite ease-in-out;
+      /* Enhanced with tech styling */
+      font-family: 'Orbitron', monospace;
+      border: 2px solid transparent;
+      background-clip: padding-box;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .enter-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    .enter-button:hover::before {
+      left: 100%;
+    }
+
+    .enter-button:hover {
+      background-color: var(--button-hover-bg);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 20px rgba(0, 0, 0, 0.6);
+      animation: none;
+      border-color: var(--neon-blue);
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3); }
+      50% { transform: scale(1.03); box-shadow: 0 12px 20px rgba(0, 0, 0, 0.4); }
+      100% { transform: scale(1); box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3); }
+    }
+
+    /* Tech status indicators */
+    .tech-status {
+      position: absolute;
+      top: 60px;
+      right: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 3;
+    }
+
+    .status-indicator {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Orbitron', monospace;
+      font-size: 0.8rem;
+      color: var(--neon-green);
+      text-shadow: 0 0 5px var(--neon-green);
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--neon-green);
+      box-shadow: 0 0 10px var(--neon-green);
+      animation: statusPulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes statusPulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    @media (max-width: 768px) {
+      .title-bar { font-size: 1.2rem; padding: 12px 15px; }
+      .launch-content { width: 95%; padding: 15px; }
+      h1 { font-size: 2.8rem; }
+      dotlottie-player { width: 200px; height: 200px; }
+      .enter-button { padding: 12px 25px; font-size: 1rem; }
+      .circle-red { width: 400px; height: 400px; }
+      .circle-green { width: 500px; height: 500px; }
+      .circle-blue { width: 600px; height: 600px; }
+      .circle-cyan { width: 700px; height: 700px; }
+      .circle-magenta { width: 800px; height: 800px; }
+      .circle-yellow { width: 900px; height: 900px; }
+      .tech-status { display: none; }
+      .grid-item { width: 12px; height: 12px; } /* Increased from 6px */
+      .grid-item.product-icon { width: 18px; height: 18px; } /* Increased from 12px */
+      .grid-item.product-icon::before { font-size: 12px; } /* Increased from 8px */
+    }
+
+    @media (max-width: 480px) {
+      h1 { font-size: 2rem; }
+      dotlottie-player { width: 150px; height: 150px; }
+      .enter-button { padding: 10px 20px; font-size: 0.9rem; }
+      .circle-red { width: 300px; height: 300px; }
+      .circle-green { width: 350px; height: 350px; }
+      .circle-blue { width: 400px; height: 400px; }
+      .circle-cyan { width: 450px; height: 450px; }
+      .circle-magenta { width: 500px; height: 500px; }
+      .circle-yellow { width: 550px; height: 550px; }
+      .grid-item { width: 10px; height: 10px; } /* Increased from 4px */
+      .grid-item.product-icon { width: 16px; height: 16px; } /* Increased from 8px */
+      .grid-item.product-icon::before { font-size: 10px; } /* Increased from 6px */
+    }
+  </style>
+</head>
+<body>
+  <div class="title-bar">Welcome to eco.mitra</div>
+
+  <!-- Tech Status Indicators -->
+  <div class="tech-status">
+    <div class="status-indicator">
+      <div class="status-dot"></div>
+      <span>SYSTEM ONLINE</span>
+    </div>
+    <div class="status-indicator">
+      <div class="status-dot"></div>
+      <span>AI READY</span>
+    </div>
+    <div class="status-indicator">
+      <div class="status-dot"></div>
+      <span>SECURE CONNECTION</span>
+    </div>
+  </div>
+
+  <!-- Moving Items Grid Animation -->
+  <div class="moving-items-grid">
+    <div class="grid-item product-icon"></div>
+    <div class="grid-item product-icon type-2"></div>
+    <div class="grid-item product-icon type-3"></div>
+    <div class="grid-item product-icon type-4"></div>
+    <div class="grid-item type-2"></div>
+    <div class="grid-item type-3"></div>
+    <div class="grid-item type-4"></div>
+    <div class="grid-item"></div>
+    <div class="grid-item type-2"></div>
+    <div class="grid-item type-3"></div>
+    <div class="grid-item product-icon"></div>
+    <div class="grid-item product-icon type-2"></div>
+    <div class="grid-item product-icon type-3"></div>
+    <div class="grid-item product-icon type-4"></div>
+    <div class="grid-item type-4"></div>
+  </div>
+
+  <!-- Futuristic Tech Background Elements -->
+  <div class="tech-grid"></div>
+  <div class="holographic-overlay"></div>
+  
+  <div class="data-streams">
+    <div class="data-stream"></div>
+    <div class="data-stream"></div>
+    <div class="data-stream"></div>
+    <div class="data-stream"></div>
+    <div class="data-stream"></div>
+    <div class="data-stream"></div>
+  </div>
+
+  <div class="neural-network">
+    <div class="neural-node"></div>
+    <div class="neural-node"></div>
+    <div class="neural-node"></div>
+    <div class="neural-node"></div>
+    <div class="neural-node"></div>
+  </div>
+
+  <div class="quantum-particles">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+  </div>
+
+  <!-- Moving Grid Background -->
+  <div class="moving-grid"></div>
+
+  <!-- Animated Circles -->
+  <div class="background-circles-container">
+    <div class="circle-red"></div>
+    <div class="circle-green"></div>
+    <div class="circle-blue"></div>
+    <div class="circle-cyan"></div>
+    <div class="circle-magenta"></div>
+    <div class="circle-yellow"></div>
+  </div>
+
+  <!-- Main Launch Content -->
+  <div class="launch-content">
+    <h1>eco.<span>MITRA</span></h1>
+    <dotlottie-player
+      src="https://lottie.host/fcc0397b-0c9d-466a-bfac-7cbd5d325e53/6R1YDF5vQd.lottie"
+      background="transparent"
+      speed="1"
+      style="width: 300px; height: 300px"
+      loop
+      autoplay
+    ></dotlottie-player>
+    <button class="enter-button" onclick="window.location.href='launch.html'">Enter Shop</button>
+  </div>
+</body>
+</html>
