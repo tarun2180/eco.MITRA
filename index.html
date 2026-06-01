@@ -15,14 +15,14 @@
       --medium-dark-background: #1a202c;
       --text-light: #e0e0e0;
       --text-dark: #ffffff;
-      --button-bg: #e54a4a;
-      --button-hover-bg: #cc3f3f;
-      --circle-color-red: rgba(255, 0, 0, 0.3);
-      --circle-color-green: rgba(0, 255, 0, 0.3);
-      --circle-color-blue: rgba(0, 0, 255, 0.3);
-      --circle-color-cyan: rgba(0, 255, 255, 0.3);
-      --circle-color-magenta: rgba(255, 0, 255, 0.3);
-      --circle-color-yellow: rgba(255, 255, 0, 0.3);
+      --button-bg: rgba(6, 9, 19, 0.8);
+      --button-hover-bg: rgba(0, 255, 255, 0.15);
+      --circle-color-red: rgba(255, 0, 0, 0.15);
+      --circle-color-green: rgba(0, 255, 0, 0.15);
+      --circle-color-blue: rgba(0, 0, 255, 0.15);
+      --circle-color-cyan: rgba(0, 255, 255, 0.15);
+      --circle-color-magenta: rgba(255, 0, 255, 0.15);
+      --circle-color-yellow: rgba(255, 255, 0, 0.15);
       --neon-blue: #00ffff;
       --neon-purple: #8a2be2;
       --neon-green: #39ff14;
@@ -30,7 +30,7 @@
 
     body {
       margin: 0;
-      background: radial-gradient(circle at top left, var(--dark-background) 0%, var(--medium-dark-background) 100%);
+      background: #060913; /* Deep Cosmic Dark Forest Base */
       color: var(--text-light);
       font-family: 'Open Sans', sans-serif;
       display: flex;
@@ -43,8 +43,74 @@
       position: relative;
     }
 
-    /* Moving Items Grid Animation - INCREASED SIZES */
-    .moving-items-grid {
+    /* Animated Aurora Gradient Orbs */
+    .aurora-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 0;
+      pointer-events: none;
+      filter: blur(100px);
+      -webkit-filter: blur(100px);
+      opacity: 0.85;
+    }
+
+    .aurora-orb {
+      position: absolute;
+      border-radius: 50%;
+      mix-blend-mode: screen;
+    }
+
+    .orb-1 {
+      top: -10%;
+      left: -10%;
+      width: 55vw;
+      height: 55vw;
+      background: radial-gradient(circle, rgba(57, 255, 20, 0.16) 0%, transparent 70%);
+      animation: floatOrb1 25s infinite alternate ease-in-out;
+    }
+
+    .orb-2 {
+      bottom: -15%;
+      right: -10%;
+      width: 65vw;
+      height: 65vw;
+      background: radial-gradient(circle, rgba(138, 43, 226, 0.15) 0%, transparent 70%);
+      animation: floatOrb2 30s infinite alternate ease-in-out;
+    }
+
+    .orb-3 {
+      top: 35%;
+      left: 25%;
+      width: 45vw;
+      height: 45vw;
+      background: radial-gradient(circle, rgba(0, 255, 255, 0.14) 0%, transparent 70%);
+      animation: floatOrb3 22s infinite alternate ease-in-out;
+    }
+
+    @keyframes floatOrb1 {
+      0% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(10vw, 15vh) scale(1.1); }
+      100% { transform: translate(-5vw, -5vh) scale(0.9); }
+    }
+
+    @keyframes floatOrb2 {
+      0% { transform: translate(0, 0) scale(0.9); }
+      50% { transform: translate(-15vw, -10vh) scale(1.05); }
+      100% { transform: translate(5vw, 10vh) scale(0.95); }
+    }
+
+    @keyframes floatOrb3 {
+      0% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(-10vw, 15vh) scale(0.9); }
+      100% { transform: translate(10vw, -10vh) scale(1.1); }
+    }
+
+    /* Ambient Fullscreen Canvas */
+    #ambient-canvas {
       position: absolute;
       top: 0;
       left: 0;
@@ -52,104 +118,6 @@
       height: 100%;
       z-index: 0;
       pointer-events: none;
-      overflow: hidden;
-    }
-
-    .grid-item {
-      position: absolute;
-      width: 16px;  /* Increased from 8px */
-      height: 16px; /* Increased from 8px */
-      background: var(--neon-blue);
-      border-radius: 4px; /* Increased from 2px */
-      opacity: 0;
-      animation: moveItemsLeftToRight 12s linear infinite;
-      box-shadow: 0 0 16px var(--neon-blue); /* Increased glow */
-    }
-
-    .grid-item.type-2 {
-      background: var(--neon-green);
-      box-shadow: 0 0 16px var(--neon-green);
-      animation-duration: 15s;
-    }
-
-    .grid-item.type-3 {
-      background: var(--neon-purple);
-      box-shadow: 0 0 16px var(--neon-purple);
-      animation-duration: 18s;
-    }
-
-    .grid-item.type-4 {
-      background: var(--secondary-color);
-      box-shadow: 0 0 16px var(--secondary-color);
-      animation-duration: 10s;
-    }
-
-    /* Different rows with varying delays */
-    .grid-item:nth-child(1) { top: 10%; animation-delay: 0s; }
-    .grid-item:nth-child(2) { top: 15%; animation-delay: 2s; }
-    .grid-item:nth-child(3) { top: 25%; animation-delay: 4s; }
-    .grid-item:nth-child(4) { top: 35%; animation-delay: 1s; }
-    .grid-item:nth-child(5) { top: 45%; animation-delay: 6s; }
-    .grid-item:nth-child(6) { top: 55%; animation-delay: 3s; }
-    .grid-item:nth-child(7) { top: 65%; animation-delay: 8s; }
-    .grid-item:nth-child(8) { top: 75%; animation-delay: 5s; }
-    .grid-item:nth-child(9) { top: 85%; animation-delay: 7s; }
-    .grid-item:nth-child(10) { top: 20%; animation-delay: 9s; }
-    .grid-item:nth-child(11) { top: 30%; animation-delay: 11s; }
-    .grid-item:nth-child(12) { top: 40%; animation-delay: 1.5s; }
-    .grid-item:nth-child(13) { top: 50%; animation-delay: 3.5s; }
-    .grid-item:nth-child(14) { top: 60%; animation-delay: 5.5s; }
-    .grid-item:nth-child(15) { top: 70%; animation-delay: 7.5s; }
-
-    @keyframes moveItemsLeftToRight {
-      0% {
-        left: -40px; /* Increased from -20px */
-        opacity: 0;
-        transform: scale(0.5);
-      }
-      5% {
-        opacity: 1;
-        transform: scale(1);
-      }
-      95% {
-        opacity: 1;
-        transform: scale(1);
-      }
-      100% {
-        left: calc(100% + 40px); /* Increased from +20px */
-        opacity: 0;
-        transform: scale(0.5);
-      }
-    }
-
-    /* Enhanced Grid Items with Product Icons - INCREASED SIZES */
-    .grid-item.product-icon {
-      width: 24px;  /* Increased from 12px */
-      height: 24px; /* Increased from 12px */
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 12px; /* Increased from 6px */
-      color: white;
-      font-weight: bold;
-    }
-
-    .grid-item.product-icon::before {
-      content: '📱';
-      font-size: 16px; /* Increased from 8px */
-    }
-
-    .grid-item.product-icon.type-2::before {
-      content: '💻';
-    }
-
-    .grid-item.product-icon.type-3::before {
-      content: '🎧';
-    }
-
-    .grid-item.product-icon.type-4::before {
-      content: '⌚';
     }
 
     /* Futuristic Tech Elements */
@@ -160,8 +128,8 @@
       width: 100%;
       height: 100%;
       background-image: 
-        linear-gradient(rgba(0, 255, 255, 0.1) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 255, 255, 0.1) 1px, transparent 1px);
+        linear-gradient(rgba(0, 255, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 255, 0.05) 1px, transparent 1px);
       background-size: 50px 50px;
       animation: techGridPulse 4s ease-in-out infinite;
       z-index: 0;
@@ -181,7 +149,7 @@
       height: 100%;
       background: linear-gradient(45deg, 
         transparent 30%, 
-        rgba(0, 255, 255, 0.05) 50%, 
+        rgba(0, 255, 255, 0.03) 50%, 
         transparent 70%);
       animation: holoScan 6s linear infinite;
       z-index: 0;
@@ -224,86 +192,7 @@
       100% { transform: translateY(100vh); opacity: 0; }
     }
 
-    .neural-network {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
-      pointer-events: none;
-    }
-
-    .neural-node {
-      position: absolute;
-      width: 4px;
-      height: 4px;
-      background: var(--neon-green);
-      border-radius: 50%;
-      box-shadow: 0 0 10px var(--neon-green);
-      animation: neuralPulse 2s ease-in-out infinite;
-    }
-
-    .neural-node:nth-child(1) { top: 20%; left: 15%; animation-delay: 0s; }
-    .neural-node:nth-child(2) { top: 30%; left: 85%; animation-delay: 0.5s; }
-    .neural-node:nth-child(3) { top: 60%; left: 10%; animation-delay: 1s; }
-    .neural-node:nth-child(4) { top: 70%; left: 90%; animation-delay: 1.5s; }
-    .neural-node:nth-child(5) { top: 80%; left: 50%; animation-delay: 2s; }
-
-    @keyframes neuralPulse {
-      0%, 100% { 
-        transform: scale(1); 
-        box-shadow: 0 0 10px var(--neon-green); 
-      }
-      50% { 
-        transform: scale(1.5); 
-        box-shadow: 0 0 20px var(--neon-green), 0 0 30px var(--neon-green); 
-      }
-    }
-
-    .quantum-particles {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
-      pointer-events: none;
-    }
-
-    .particle {
-      position: absolute;
-      width: 2px;
-      height: 2px;
-      background: var(--neon-purple);
-      border-radius: 50%;
-      animation: quantumFloat 8s linear infinite;
-    }
-
-    .particle:nth-child(1) { left: 20%; animation-delay: 0s; }
-    .particle:nth-child(2) { left: 40%; animation-delay: 2s; }
-    .particle:nth-child(3) { left: 60%; animation-delay: 4s; }
-    .particle:nth-child(4) { left: 80%; animation-delay: 6s; }
-
-    @keyframes quantumFloat {
-      0% { 
-        transform: translateY(100vh) scale(0); 
-        opacity: 0; 
-      }
-      10% { 
-        opacity: 1; 
-        transform: scale(1); 
-      }
-      90% { 
-        opacity: 1; 
-      }
-      100% { 
-        transform: translateY(-100px) scale(0); 
-        opacity: 0; 
-      }
-    }
-
-    /* Original styles preserved */
+    /* Original moving grid background */
     .moving-grid {
       position: absolute;
       top: 0;
@@ -311,8 +200,8 @@
       width: 200%;
       height: 100%;
       background-image: 
-        linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
+        linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px);
       background-size: 40px 40px;
       animation: moveGrid 60s linear infinite;
       z-index: 0;
@@ -336,6 +225,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      transition: transform 0.2s ease-out; /* Smooth transition for 3D shifting */
     }
 
     .background-circles-container div {
@@ -362,31 +252,32 @@
     }
 
     @keyframes pulse3DCircle {
-      0% { transform: perspective(1200px) translateZ(-50px) scale(0.9); opacity: 0.6; }
-      50% { transform: perspective(1200px) translateZ(50px) scale(1.1); opacity: 1; }
-      100% { transform: perspective(1200px) translateZ(-50px) scale(0.9); opacity: 0.6; }
+      0% { transform: perspective(1200px) translateZ(-50px) scale(0.9); opacity: 0.4; }
+      50% { transform: perspective(1200px) translateZ(50px) scale(1.1); opacity: 0.75; }
+      100% { transform: perspective(1200px) translateZ(-50px) scale(0.9); opacity: 0.4; }
     }
 
     .title-bar {
       position: absolute;
       top: 0;
       width: 100%;
-      background-color: rgba(0, 0, 0, 0.6);
+      background-color: rgba(0, 0, 0, 0.65);
       padding: 15px 20px;
       text-align: center;
       font-size: 1.5rem;
       font-weight: 600;
-      backdrop-filter: blur(8px);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
       color: var(--text-dark);
       letter-spacing: 0.5px;
       z-index: 2;
-      /* Enhanced with tech styling */
       font-family: 'Orbitron', monospace;
       border-bottom: 1px solid rgba(0, 255, 255, 0.3);
       text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
     }
 
+    /* Premium Sci-Fi HUD Glassmorphic Visor Card */
     .launch-content {
       position: relative;
       z-index: 1;
@@ -394,17 +285,23 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 20px;
-      background-color: rgba(0, 0, 0, 0.4);
-      border-radius: 15px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+      padding: 45px 40px;
+      background: rgba(13, 18, 28, 0.42);
+      border-radius: 16px;
+      box-shadow: 
+        0 25px 60px rgba(0, 0, 0, 0.85),
+        inset 0 0 40px rgba(0, 255, 255, 0.05);
       max-width: 90%;
-      width: 500px;
+      width: 480px;
       overflow: hidden;
       isolation: isolate;
-      /* Enhanced with tech styling */
-      border: 1px solid rgba(0, 255, 255, 0.2);
-      backdrop-filter: blur(10px);
+      border: 1.5px solid rgba(0, 255, 255, 0.32);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      
+      /* 3D Parallax properties */
+      transform-style: preserve-3d;
+      transition: transform 0.15s ease-out, border-color 0.4s ease, box-shadow 0.4s ease;
     }
 
     .launch-content::before {
@@ -414,48 +311,140 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.8);
+      background: radial-gradient(circle at top left, rgba(140, 126, 255, 0.1), rgba(57, 255, 20, 0.02));
       z-index: -1;
-      border-radius: 15px;
+      border-radius: 16px;
     }
 
-    /* Enhanced tech border animation */
-    .launch-content::after {
-      content: '';
+    /* Diagonal Specular Sheen (Shine Animation) */
+    .glass-sheen {
       position: absolute;
-      top: -2px;
-      left: -2px;
-      right: -2px;
-      bottom: -2px;
-      background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple), var(--neon-green), var(--neon-blue));
-      border-radius: 17px;
-      z-index: -2;
-      animation: techBorderGlow 3s linear infinite;
-      opacity: 0.7;
+      top: 0;
+      left: -150%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.08) 30%, 
+        rgba(255, 255, 255, 0.18) 50%, 
+        rgba(255, 255, 255, 0.08) 70%, 
+        transparent
+      );
+      transform: skewX(-25deg);
+      pointer-events: none;
+      z-index: 1;
+      animation: glassShine 6s ease-in-out infinite;
     }
 
-    @keyframes techBorderGlow {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+    @keyframes glassShine {
+      0% { left: -150%; }
+      30% { left: 150%; }
+      100% { left: 150%; }
     }
 
+    /* Sci-Fi HUD Brackets */
+    .hud-bracket {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      z-index: 4;
+      pointer-events: none;
+      transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    .hud-bracket.top-left {
+      top: 15px;
+      left: 15px;
+      border-top: 3px solid var(--neon-blue);
+      border-left: 3px solid var(--neon-blue);
+    }
+
+    .hud-bracket.top-right {
+      top: 15px;
+      right: 15px;
+      border-top: 3px solid var(--neon-blue);
+      border-right: 3px solid var(--neon-blue);
+    }
+
+    .hud-bracket.bottom-left {
+      bottom: 15px;
+      left: 15px;
+      border-bottom: 3px solid var(--neon-blue);
+      border-left: 3px solid var(--neon-blue);
+    }
+
+    .hud-bracket.bottom-right {
+      bottom: 15px;
+      right: 15px;
+      border-bottom: 3px solid var(--neon-blue);
+      border-right: 3px solid var(--neon-blue);
+    }
+
+    /* Laser Scanner Sweeper */
+    .hud-scanner {
+      position: absolute;
+      left: 2px;
+      width: calc(100% - 4px);
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--neon-blue), var(--neon-green), var(--neon-blue), transparent);
+      box-shadow: 0 0 8px var(--neon-blue), 0 0 15px var(--neon-green);
+      opacity: 0.55;
+      z-index: 3;
+      pointer-events: none;
+      animation: laserSweep 4.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes laserSweep {
+      0% { top: 2%; }
+      100% { top: 98%; }
+    }
+
+    /* Small HUD Tech labels */
+    .hud-tech-label {
+      position: absolute;
+      top: 12px;
+      font-family: 'Orbitron', monospace;
+      font-size: 0.65rem;
+      color: rgba(0, 255, 255, 0.45);
+      letter-spacing: 2px;
+      pointer-events: none;
+      z-index: 4;
+      text-shadow: 0 0 4px rgba(0, 255, 255, 0.3);
+    }
+
+    /* Hover interactions for HUD elements */
+    .launch-content:hover {
+      border-color: rgba(0, 255, 255, 0.45);
+      box-shadow: 
+        0 30px 75px rgba(0, 0, 0, 0.9),
+        0 0 30px rgba(0, 255, 255, 0.15),
+        inset 0 0 45px rgba(0, 255, 255, 0.08);
+    }
+
+    .launch-content:hover .hud-bracket.top-left { top: 10px; left: 10px; border-color: var(--neon-green); }
+    .launch-content:hover .hud-bracket.top-right { top: 10px; right: 10px; border-color: var(--neon-green); }
+    .launch-content:hover .hud-bracket.bottom-left { bottom: 10px; left: 10px; border-color: var(--neon-green); }
+    .launch-content:hover .hud-bracket.bottom-right { bottom: 10px; right: 10px; border-color: var(--neon-green); }
+
+    /* Elegant Brand Text */
     h1 {
       font-size: 3.8rem;
       font-family: 'Poppins', sans-serif;
       font-weight: 700;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
       color: var(--text-dark);
       letter-spacing: -1px;
-      animation: rotate3D 4s ease-in-out infinite;
       text-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-      /* Enhanced with tech glow */
-      filter: drop-shadow(0 0 10px rgba(140, 126, 255, 0.5));
+      filter: drop-shadow(0 0 10px rgba(140, 126, 255, 0.35));
+      
+      /* Floats in 3D parallax space */
+      transform: translateZ(50px);
+      transform-style: preserve-3d;
     }
 
     h1 span {
       color: var(--primary-color);
-      /* Enhanced tech effect */
       text-shadow: 0 0 20px var(--primary-color);
       animation: techTextGlow 2s ease-in-out infinite alternate;
     }
@@ -465,75 +454,217 @@
       to { text-shadow: 0 0 30px var(--primary-color), 0 0 40px var(--primary-color); }
     }
 
-    @keyframes rotate3D {
-      0% { transform: perspective(1000px) rotateY(-15deg) scale(0.95); opacity: 0.8; }
-      50% { transform: perspective(1000px) rotateY(15deg) scale(1.05); opacity: 1; }
-      100% { transform: perspective(1000px) rotateY(-15deg) scale(0.95); opacity: 0.8; }
+    /* Holographic Projection Stage */
+    .hologram-stage {
+      position: relative;
+      width: 280px;
+      height: 280px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 25px;
+      /* Float in 3D space */
+      transform: translateZ(60px);
+      transform-style: preserve-3d;
+    }
+
+    .hologram-glow {
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      background: radial-gradient(circle, rgba(0, 255, 255, 0.2) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: hologramPulse 3s ease-in-out infinite alternate;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    @keyframes hologramPulse {
+      0% { opacity: 0.3; transform: scale(0.9); }
+      100% { opacity: 0.85; transform: scale(1.1); }
+    }
+
+    .hologram-rings {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 1;
+      transform-style: preserve-3d;
+      perspective: 800px;
+    }
+
+    .ring {
+      position: absolute;
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform-style: preserve-3d;
+    }
+
+    .outer-ring {
+      width: 240px;
+      height: 240px;
+      margin-top: -120px;
+      margin-left: -120px;
+      border: 1px solid rgba(0, 255, 255, 0.15);
+      border-top: 2.5px solid var(--neon-blue);
+      border-bottom: 2.5px solid var(--neon-blue);
+      animation: spinClockwise 12s linear infinite;
+    }
+
+    .middle-ring {
+      width: 190px;
+      height: 190px;
+      margin-top: -95px;
+      margin-left: -95px;
+      border: 1.2px dashed rgba(57, 255, 20, 0.3);
+      border-left: 2px solid var(--neon-green);
+      animation: spinCounterClockwise 8s linear infinite;
+    }
+
+    .inner-ring {
+      width: 150px;
+      height: 150px;
+      margin-top: -75px;
+      margin-left: -75px;
+      border: 1px dotted rgba(138, 43, 226, 0.4);
+      border-right: 2px solid var(--neon-purple);
+      animation: spinClockwise 5s linear infinite;
+    }
+
+    @keyframes spinClockwise {
+      from { transform: rotate(0deg) rotateX(60deg); }
+      to { transform: rotate(360deg) rotateX(60deg); }
+    }
+
+    @keyframes spinCounterClockwise {
+      from { transform: rotate(360deg) rotateX(-45deg); }
+      to { transform: rotate(0deg) rotateX(-45deg); }
+    }
+
+    .projector-emitter {
+      position: absolute;
+      bottom: 5px;
+      width: 90px;
+      height: 6px;
+      background: linear-gradient(90deg, transparent, var(--neon-blue), transparent);
+      box-shadow: 0 0 12px var(--neon-blue);
+      border-radius: 50%;
+      animation: emitterPulse 1.5s ease-in-out infinite alternate;
+      z-index: 1;
+    }
+
+    @keyframes emitterPulse {
+      from { opacity: 0.5; transform: scaleX(0.9); }
+      to { opacity: 0.95; transform: scaleX(1.15); }
     }
 
     dotlottie-player {
-      margin-bottom: 30px;
-      animation: zoomIn 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+      animation: zoomIn 1.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
       opacity: 0;
-      /* Enhanced with tech glow */
-      filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.3));
+      filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.25));
+      z-index: 2;
+      
+      /* Floats above holographic rings */
+      transform: translateZ(30px);
     }
 
     @keyframes zoomIn {
-      from { opacity: 0; transform: scale(0.5); }
-      to { opacity: 1; transform: scale(1); }
+      from { opacity: 0; transform: scale(0.6) translateZ(0px); }
+      to { opacity: 1; transform: scale(1) translateZ(30px); }
     }
 
+    /* Sleek Tech Capsule Button */
     .enter-button {
-      padding: 15px 35px;
-      font-size: 1.2rem;
-      background-color: var(--button-bg);
-      color: white;
-      border: none;
-      border-radius: 50px;
+      padding: 14px 44px;
+      font-size: 1.1rem;
+      background: var(--button-bg);
+      color: var(--text-dark);
+      border: 1px solid rgba(0, 255, 255, 0.35);
+      border-radius: 6px;
       cursor: pointer;
-      font-weight: 600;
+      font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
-      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-      animation: pulse 2s infinite ease-in-out;
-      /* Enhanced with tech styling */
+      letter-spacing: 2px;
+      box-shadow: 
+        0 4px 15px rgba(0, 0, 0, 0.4),
+        inset 0 0 10px rgba(0, 255, 255, 0.05);
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
       font-family: 'Orbitron', monospace;
-      border: 2px solid transparent;
-      background-clip: padding-box;
       position: relative;
       overflow: hidden;
+      outline: none;
+      
+      /* Floats in 3D space */
+      transform: translateZ(70px);
     }
 
     .enter-button::before {
       content: '';
       position: absolute;
       top: 0;
-      left: -100%;
-      width: 100%;
+      left: 0;
+      width: 3px;
       height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      transition: left 0.5s;
+      background: var(--neon-blue);
+      transition: all 0.3s ease;
     }
 
-    .enter-button:hover::before {
-      left: 100%;
+    .enter-button::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 3px;
+      height: 100%;
+      background: var(--neon-blue);
+      transition: all 0.3s ease;
     }
 
     .enter-button:hover {
-      background-color: var(--button-hover-bg);
-      transform: translateY(-3px);
-      box-shadow: 0 12px 20px rgba(0, 0, 0, 0.6);
-      animation: none;
+      background: var(--button-hover-bg);
       border-color: var(--neon-blue);
-      text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+      box-shadow: 
+        0 0 25px rgba(0, 255, 255, 0.35),
+        inset 0 0 15px rgba(0, 255, 255, 0.15);
+      text-shadow: 0 0 8px rgba(0, 255, 255, 0.8);
+      transform: scale(1.05) translateY(-3px) translateZ(70px);
     }
 
-    @keyframes pulse {
-      0% { transform: scale(1); box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3); }
-      50% { transform: scale(1.03); box-shadow: 0 12px 20px rgba(0, 0, 0, 0.4); }
-      100% { transform: scale(1); box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3); }
+    .enter-button:hover::before {
+      width: 100%;
+      background: rgba(0, 255, 255, 0.06);
+      z-index: -1;
+    }
+
+    /* Button Click Ripple */
+    .enter-button .ripple {
+      position: absolute;
+      background: rgba(0, 255, 255, 0.35);
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      animation: buttonRipple 0.6s linear;
+      pointer-events: none;
+    }
+
+    @keyframes buttonRipple {
+      to {
+        transform: translate(-50%, -50%) scale(4);
+        opacity: 0;
+      }
+    }
+
+    /* Text Scrambler Character Styling */
+    .dud {
+      color: var(--neon-blue);
+      text-shadow: 0 0 5px var(--neon-blue);
+      font-family: monospace;
+      opacity: 0.85;
     }
 
     /* Tech status indicators */
@@ -573,9 +704,13 @@
 
     @media (max-width: 768px) {
       .title-bar { font-size: 1.2rem; padding: 12px 15px; }
-      .launch-content { width: 95%; padding: 15px; }
+      .launch-content { width: 95%; padding: 25px 20px; }
       h1 { font-size: 2.8rem; }
+      .hologram-stage { width: 220px; height: 220px; }
       dotlottie-player { width: 200px; height: 200px; }
+      .outer-ring { width: 190px; height: 190px; margin-top: -95px; margin-left: -95px; }
+      .middle-ring { width: 150px; height: 150px; margin-top: -75px; margin-left: -75px; }
+      .inner-ring { width: 120px; height: 120px; margin-top: -60px; margin-left: -60px; }
       .enter-button { padding: 12px 25px; font-size: 1rem; }
       .circle-red { width: 400px; height: 400px; }
       .circle-green { width: 500px; height: 500px; }
@@ -584,14 +719,15 @@
       .circle-magenta { width: 800px; height: 800px; }
       .circle-yellow { width: 900px; height: 900px; }
       .tech-status { display: none; }
-      .grid-item { width: 12px; height: 12px; } /* Increased from 6px */
-      .grid-item.product-icon { width: 18px; height: 18px; } /* Increased from 12px */
-      .grid-item.product-icon::before { font-size: 12px; } /* Increased from 8px */
     }
 
     @media (max-width: 480px) {
       h1 { font-size: 2rem; }
+      .hologram-stage { width: 170px; height: 170px; }
       dotlottie-player { width: 150px; height: 150px; }
+      .outer-ring { width: 150px; height: 150px; margin-top: -75px; margin-left: -75px; }
+      .middle-ring { width: 120px; height: 120px; margin-top: -60px; margin-left: -60px; }
+      .inner-ring { width: 100px; height: 100px; margin-top: -50px; margin-left: -50px; }
       .enter-button { padding: 10px 20px; font-size: 0.9rem; }
       .circle-red { width: 300px; height: 300px; }
       .circle-green { width: 350px; height: 350px; }
@@ -599,48 +735,36 @@
       .circle-cyan { width: 450px; height: 450px; }
       .circle-magenta { width: 500px; height: 500px; }
       .circle-yellow { width: 550px; height: 550px; }
-      .grid-item { width: 10px; height: 10px; } /* Increased from 4px */
-      .grid-item.product-icon { width: 16px; height: 16px; } /* Increased from 8px */
-      .grid-item.product-icon::before { font-size: 10px; } /* Increased from 6px */
     }
   </style>
 </head>
 <body>
-  <div class="title-bar">Welcome to eco.mitra</div>
+  <!-- Animated Aurora Gradient Orbs for background depth -->
+  <div class="aurora-container">
+    <div class="aurora-orb orb-1"></div>
+    <div class="aurora-orb orb-2"></div>
+    <div class="aurora-orb orb-3"></div>
+  </div>
+
+  <!-- Ambient High-Performance Interactive Background Network Canvas -->
+  <canvas id="ambient-canvas"></canvas>
+
+  <div class="title-bar" id="scramble-title-bar">Welcome to eco.mitra</div>
 
   <!-- Tech Status Indicators -->
   <div class="tech-status">
     <div class="status-indicator">
       <div class="status-dot"></div>
-      <span>SYSTEM ONLINE</span>
+      <span class="scramble-status">SYSTEM ONLINE</span>
     </div>
     <div class="status-indicator">
       <div class="status-dot"></div>
-      <span>AI READY</span>
+      <span class="scramble-status">AI READY</span>
     </div>
     <div class="status-indicator">
       <div class="status-dot"></div>
-      <span>SECURE CONNECTION</span>
+      <span class="scramble-status">SECURE CONNECTION</span>
     </div>
-  </div>
-
-  <!-- Moving Items Grid Animation -->
-  <div class="moving-items-grid">
-    <div class="grid-item product-icon"></div>
-    <div class="grid-item product-icon type-2"></div>
-    <div class="grid-item product-icon type-3"></div>
-    <div class="grid-item product-icon type-4"></div>
-    <div class="grid-item type-2"></div>
-    <div class="grid-item type-3"></div>
-    <div class="grid-item type-4"></div>
-    <div class="grid-item"></div>
-    <div class="grid-item type-2"></div>
-    <div class="grid-item type-3"></div>
-    <div class="grid-item product-icon"></div>
-    <div class="grid-item product-icon type-2"></div>
-    <div class="grid-item product-icon type-3"></div>
-    <div class="grid-item product-icon type-4"></div>
-    <div class="grid-item type-4"></div>
   </div>
 
   <!-- Futuristic Tech Background Elements -->
@@ -656,21 +780,6 @@
     <div class="data-stream"></div>
   </div>
 
-  <div class="neural-network">
-    <div class="neural-node"></div>
-    <div class="neural-node"></div>
-    <div class="neural-node"></div>
-    <div class="neural-node"></div>
-    <div class="neural-node"></div>
-  </div>
-
-  <div class="quantum-particles">
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-  </div>
-
   <!-- Moving Grid Background -->
   <div class="moving-grid"></div>
 
@@ -684,18 +793,512 @@
     <div class="circle-yellow"></div>
   </div>
 
-  <!-- Main Launch Content -->
+  <!-- Main Launch Content Card with Sci-Fi HUD Visor -->
   <div class="launch-content">
-    <h1>eco.<span>MITRA</span></h1>
-    <dotlottie-player
-      src="https://lottie.host/fcc0397b-0c9d-466a-bfac-7cbd5d325e53/6R1YDF5vQd.lottie"
-      background="transparent"
-      speed="1"
-      style="width: 300px; height: 300px"
-      loop
-      autoplay
-    ></dotlottie-player>
+    <!-- Cybernetic HUD Corner Brackets -->
+    <div class="hud-bracket top-left"></div>
+    <div class="hud-bracket top-right"></div>
+    <div class="hud-bracket bottom-left"></div>
+    <div class="hud-bracket bottom-right"></div>
+
+    <!-- Active Laser Sweeper & Visual Interface Label -->
+    <div class="hud-scanner"></div>
+    <div class="hud-tech-label">VISUAL INTERFACE v2.8</div>
+
+    <div class="glass-sheen"></div>
+    <h1 id="main-title"><span id="title-eco">eco.</span><span id="title-mittra">MITTRA</span></h1>
+    
+    <!-- Holographic Projection Stage -->
+    <div class="hologram-stage">
+      <div class="hologram-glow"></div>
+      <div class="hologram-rings">
+        <div class="ring outer-ring"></div>
+        <div class="ring middle-ring"></div>
+        <div class="ring inner-ring"></div>
+      </div>
+      <dotlottie-player
+        src="https://lottie.host/fcc0397b-0c9d-466a-bfac-7cbd5d325e53/6R1YDF5vQd.lottie"
+        background="transparent"
+        speed="1"
+        style="width: 260px; height: 260px"
+        loop
+        autoplay
+      ></dotlottie-player>
+      <div class="projector-emitter"></div>
+    </div>
+
     <button class="enter-button" onclick="window.location.href='launch.html'">Enter Shop</button>
   </div>
+
+  <script>
+    // Text Scrambler System (Decryption Effect)
+    class TextScrambler {
+      constructor(el) {
+        this.el = el;
+        this.chars = '!<>-_\\/[]{}—=+*^?#________010101';
+        this.update = this.update.bind(this);
+      }
+      
+      setText(newText) {
+        const oldText = this.el.innerText;
+        const length = Math.max(oldText.length, newText.length);
+        const promise = new Promise((resolve) => this.resolve = resolve);
+        this.queue = [];
+        for (let i = 0; i < length; i++) {
+          const start = Math.floor(Math.random() * 25);
+          const end = start + Math.floor(Math.random() * 25);
+          this.queue.push({
+            from: oldText[i] || '',
+            to: newText[i] || '',
+            start,
+            end,
+            char: ''
+          });
+        }
+        cancelAnimationFrame(this.frameRequest);
+        this.frame = 0;
+        this.update();
+        return promise;
+      }
+      
+      update() {
+        let output = '';
+        let complete = 0;
+        for (let i = 0, n = this.queue.length; i < n; i++) {
+          let { from, to, start, end, char } = this.queue[i];
+          if (this.frame >= end) {
+            complete++;
+            output += to;
+          } else if (this.frame >= start) {
+            if (!char || Math.random() < 0.28) {
+              char = this.randomChar();
+              this.queue[i].char = char;
+            }
+            output += `<span class="dud">${char}</span>`;
+          } else {
+            output += from;
+          }
+        }
+        this.el.innerHTML = output;
+        if (complete === this.queue.length) {
+          this.resolve();
+        } else {
+          this.frameRequest = requestAnimationFrame(this.update);
+          this.frame++;
+        }
+      }
+      
+      randomChar() {
+        return this.chars[Math.floor(Math.random() * this.chars.length)];
+      }
+    }
+
+    // Trigger Text Scrambler on load
+    document.addEventListener('DOMContentLoaded', () => {
+      // Scramble Welcome Bar
+      const titleBar = document.getElementById('scramble-title-bar');
+      if (titleBar) {
+        new TextScrambler(titleBar).setText("Welcome to eco.mitra");
+      }
+      
+      // Scramble central logos
+      const titleEco = document.getElementById('title-eco');
+      const titleMittra = document.getElementById('title-mittra');
+      if (titleEco) {
+        new TextScrambler(titleEco).setText("eco.");
+      }
+      if (titleMittra) {
+        setTimeout(() => {
+          new TextScrambler(titleMittra).setText("MITTRA");
+        }, 300);
+      }
+      
+      // Scramble Status Indicators
+      const statusSpans = document.querySelectorAll('.scramble-status');
+      statusSpans.forEach((span, index) => {
+        setTimeout(() => {
+          const origText = span.innerText;
+          new TextScrambler(span).setText(origText);
+        }, 150 * (index + 1));
+      });
+      
+      // Load diagnostic panel
+      initializeDiagnostics();
+    });
+
+    // Simulated Diagnostic Feed
+    function initializeDiagnostics() {
+      const statusContainer = document.querySelector('.tech-status');
+      if (!statusContainer) return;
+      
+      // Latency metric
+      const latencyDiv = document.createElement('div');
+      latencyDiv.className = 'status-indicator';
+      latencyDiv.innerHTML = `
+        <div class="status-dot" style="background: var(--neon-purple); box-shadow: 0 0 10px var(--neon-purple);"></div>
+        <span>LATENCY: <span id="latency-val" style="font-family: monospace;">12ms</span></span>
+      `;
+      statusContainer.appendChild(latencyDiv);
+
+      // Eco coords
+      const coordDiv = document.createElement('div');
+      coordDiv.className = 'status-indicator';
+      coordDiv.innerHTML = `
+        <div class="status-dot" style="background: var(--neon-blue); box-shadow: 0 0 10px var(--neon-blue);"></div>
+        <span>COORDS: <span id="coords-val" style="font-family: monospace;">12.9716, 77.5946</span></span>
+      `;
+      statusContainer.appendChild(coordDiv);
+
+      setInterval(() => {
+        // Ping variance
+        const latency = Math.floor(Math.random() * 8) + 8;
+        const latencyVal = document.getElementById('latency-val');
+        if (latencyVal) latencyVal.innerText = `${latency}ms`;
+
+        // Coordinate micro-fluctuations
+        const lat = (12.9716 + (Math.random() - 0.5) * 0.0006).toFixed(4);
+        const lon = (77.5946 + (Math.random() - 0.5) * 0.0006).toFixed(4);
+        const coordsVal = document.getElementById('coords-val');
+        if (coordsVal) coordsVal.innerText = `${lat}, ${lon}`;
+      }, 1500);
+    }
+
+    // 3D Parallax Tilt Effect on Card & Background Circles
+    const card = document.querySelector('.launch-content');
+    const circles = document.querySelector('.background-circles-container');
+
+    document.addEventListener('mousemove', (e) => {
+      const xAxis = (window.innerWidth / 2 - e.clientX) / 25;
+      const yAxis = (window.innerHeight / 2 - e.clientY) / 25;
+      
+      if (card) {
+        card.style.transform = `perspective(1000px) rotateY(${-xAxis}deg) rotateX(${yAxis}deg) translateZ(10px)`;
+      }
+      
+      if (circles) {
+        const shiftX = (e.clientX - window.innerWidth / 2) * 0.02;
+        const shiftY = (e.clientY - window.innerHeight / 2) * 0.02;
+        circles.style.transform = `translate(calc(-50% + ${shiftX}px), calc(-50% + ${shiftY}px))`;
+      }
+    });
+
+    document.addEventListener('mouseleave', () => {
+      if (card) {
+        card.style.transform = `perspective(1000px) rotateY(0deg) rotateX(0deg) translateZ(0px)`;
+      }
+      if (circles) {
+        circles.style.transform = `translate(-50%, -50%)`;
+      }
+    });
+
+    // Enter Shop Button Click Ripple Effect
+    const enterBtn = document.querySelector('.enter-button');
+    if (enterBtn) {
+      enterBtn.addEventListener('click', function(e) {
+        const rect = this.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const ripple = document.createElement('span');
+        ripple.className = 'ripple';
+        ripple.style.left = `${x}px`;
+        ripple.style.top = `${y}px`;
+        
+        this.appendChild(ripple);
+        
+        setTimeout(() => {
+          ripple.remove();
+        }, 600);
+      });
+    }
+
+    // High-Performance Glass Bubble System
+    class GlassBubble {
+      constructor(canvasWidth, canvasHeight) {
+        this.width = canvasWidth;
+        this.height = canvasHeight;
+        this.reset(true);
+      }
+      
+      reset(initial = false) {
+        this.radius = Math.random() * 22 + 8; // Varied bubble sizes (8px to 30px)
+        this.x = Math.random() * this.width;
+        // Distribute bubbles on initial load, spawn below screen for subsequent resets
+        this.y = initial ? Math.random() * this.height : this.height + this.radius + Math.random() * 100;
+        this.speedY = Math.random() * 1.0 + 0.4;
+        this.wobbleSpeed = Math.random() * 0.025 + 0.01;
+        this.wobbleRange = Math.random() * 1.5 + 0.5;
+        this.angle = Math.random() * Math.PI * 2;
+        
+        const bubbleColors = [
+          'rgba(57, 255, 20, ',   // Emerald Green
+          'rgba(0, 255, 255, ',   // Cyan
+          'rgba(140, 126, 255, ', // Purple
+          'rgba(255, 140, 66, '   // Sunset Orange
+        ];
+        this.colorBase = bubbleColors[Math.floor(Math.random() * bubbleColors.length)];
+        this.alpha = Math.random() * 0.25 + 0.15;
+      }
+      
+      update(mouseX, mouseY, mouseActive) {
+        this.y -= this.speedY;
+        this.angle += this.wobbleSpeed;
+        this.x += Math.sin(this.angle) * this.wobbleRange;
+        
+        // Repel bubbles from mouse
+        if (mouseActive && mouseX !== null && mouseY !== null) {
+          const dx = this.x - mouseX;
+          const dy = this.y - mouseY;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          const repelDist = 130;
+          if (dist < repelDist) {
+            const force = (repelDist - dist) / repelDist;
+            const angle = Math.atan2(dy, dx);
+            this.x += Math.cos(angle) * force * 3;
+            this.y += Math.sin(angle) * force * 3;
+          }
+        }
+        
+        // Reset when floating off top
+        if (this.y < -this.radius) {
+          this.reset(false);
+        }
+      }
+      
+      draw(ctx) {
+        // Outer glowing ring
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.strokeStyle = this.colorBase + this.alpha + ')';
+        ctx.lineWidth = 1.2;
+        ctx.stroke();
+        
+        // Inner spherical gradient
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        const grad = ctx.createRadialGradient(
+          this.x - this.radius * 0.2, this.y - this.radius * 0.2, this.radius * 0.1,
+          this.x, this.y, this.radius
+        );
+        grad.addColorStop(0, 'rgba(255, 255, 255, 0.15)');
+        grad.addColorStop(0.5, this.colorBase + (this.alpha * 0.08) + ')');
+        grad.addColorStop(1, this.colorBase + (this.alpha * 0.25) + ')');
+        ctx.fillStyle = grad;
+        ctx.fill();
+        
+        // Offset 3D reflection shine
+        ctx.beginPath();
+        ctx.arc(this.x - this.radius * 0.35, this.y - this.radius * 0.35, this.radius * 0.18, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.45)';
+        ctx.fill();
+      }
+    }
+
+    // Canvas Advanced Bio-Neural Background & Spark Trail System
+    const canvas = document.getElementById('ambient-canvas');
+    if (canvas) {
+      const ctx = canvas.getContext('2d');
+      let width = canvas.width = window.innerWidth;
+      let height = canvas.height = window.innerHeight;
+      
+      const bubbles = [];
+      const nodeParticles = [];
+      const trailParticles = [];
+
+      window.addEventListener('resize', () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+        // Notify bubbles of new bounds
+        bubbles.forEach(b => { b.width = width; b.height = height; });
+      });
+
+      const mouse = { x: null, y: null, active: false };
+
+      window.addEventListener('mousemove', (e) => {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+        mouse.active = true;
+        
+        // Spawn sparks on hover
+        for (let i = 0; i < 2; i++) {
+          trailParticles.push(new TrailParticle(mouse.x, mouse.y, false));
+        }
+      });
+
+      window.addEventListener('mouseleave', () => {
+        mouse.active = false;
+      });
+
+      window.addEventListener('click', (e) => {
+        // Spray burst sparks
+        const count = window.innerWidth < 768 ? 10 : 20;
+        for (let i = 0; i < count; i++) {
+          trailParticles.push(new TrailParticle(e.clientX, e.clientY, true));
+        }
+
+        // Pop bubbles near click coordinates
+        for (let i = 0; i < bubbles.length; i++) {
+          const b = bubbles[i];
+          const dx = e.clientX - b.x;
+          const dy = e.clientY - b.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < b.radius + 15) {
+            // Spawn pops sparks matching bubble's color
+            for (let k = 0; k < 8; k++) {
+              const spark = new TrailParticle(b.x, b.y, true);
+              spark.colorBase = b.colorBase;
+              trailParticles.push(spark);
+            }
+            b.reset(false);
+          }
+        }
+      });
+
+      class NodeParticle {
+        constructor() {
+          this.x = Math.random() * width;
+          this.y = Math.random() * height;
+          this.vx = (Math.random() - 0.5) * 0.4;
+          this.vy = (Math.random() - 0.5) * 0.4;
+          this.radius = Math.random() * 2 + 1;
+          this.color = Math.random() > 0.45 ? 'rgba(57, 255, 20, 0.65)' : 'rgba(0, 255, 255, 0.65)';
+        }
+        
+        update() {
+          this.x += this.vx;
+          this.y += this.vy;
+          
+          if (this.x < 0 || this.x > width) this.vx *= -1;
+          if (this.y < 0 || this.y > height) this.vy *= -1;
+        }
+        
+        draw() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+          ctx.fillStyle = this.color;
+          ctx.fill();
+        }
+      }
+
+      class TrailParticle {
+        constructor(x, y, isBurst = false) {
+          this.x = x;
+          this.y = y;
+          if (isBurst) {
+            const angle = Math.random() * Math.PI * 2;
+            const speed = Math.random() * 4 + 1.5;
+            this.vx = Math.cos(angle) * speed;
+            this.vy = Math.sin(angle) * speed;
+            this.radius = Math.random() * 4 + 2;
+            this.decay = Math.random() * 0.025 + 0.015;
+          } else {
+            this.vx = (Math.random() - 0.5) * 1.2;
+            this.vy = (Math.random() - 0.5) * 1.2 - 1.0;
+            this.radius = Math.random() * 2.5 + 1;
+            this.decay = Math.random() * 0.018 + 0.008;
+          }
+          this.alpha = 1;
+          
+          const colors = [
+            'rgba(57, 255, 20, ',
+            'rgba(0, 255, 255, ',
+            'rgba(140, 126, 255, ',
+            'rgba(255, 140, 66, '
+          ];
+          this.colorBase = colors[Math.floor(Math.random() * colors.length)];
+        }
+        
+        update() {
+          this.x += this.vx;
+          this.y += this.vy;
+          this.alpha -= this.decay;
+          if (this.radius > 0.05) this.radius -= 0.03;
+        }
+        
+        draw() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+          ctx.fillStyle = this.colorBase + this.alpha + ')';
+          ctx.fill();
+        }
+      }
+
+      // Initialize responsive bubbles
+      const bubbleCount = window.innerWidth < 768 ? 10 : 22;
+      for (let i = 0; i < bubbleCount; i++) {
+        bubbles.push(new GlassBubble(width, height));
+      }
+
+      // Responsive density of nodes
+      const particleCount = window.innerWidth < 768 ? 25 : 70;
+      for (let i = 0; i < particleCount; i++) {
+        nodeParticles.push(new NodeParticle());
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, width, height);
+        
+        // 1. Draw and update Glass Bubbles
+        for (let i = 0; i < bubbles.length; i++) {
+          bubbles[i].update(mouse.x, mouse.y, mouse.active);
+          bubbles[i].draw(ctx);
+        }
+
+        // 2. Connect nearby network nodes
+        const maxDist = 120;
+        for (let i = 0; i < nodeParticles.length; i++) {
+          const p1 = nodeParticles[i];
+          p1.update();
+          p1.draw();
+          
+          for (let j = i + 1; j < nodeParticles.length; j++) {
+            const p2 = nodeParticles[j];
+            const dx = p1.x - p2.x;
+            const dy = p1.y - p2.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            
+            if (dist < maxDist) {
+              const alpha = (1 - dist / maxDist) * 0.22;
+              ctx.beginPath();
+              ctx.moveTo(p1.x, p1.y);
+              ctx.lineTo(p2.x, p2.y);
+              ctx.strokeStyle = `rgba(0, 255, 255, ${alpha})`;
+              ctx.lineWidth = 0.8;
+              ctx.stroke();
+            }
+          }
+
+          if (mouse.active) {
+            const dx = p1.x - mouse.x;
+            const dy = p1.y - mouse.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 180) {
+              const alpha = (1 - dist / 180) * 0.35;
+              ctx.beginPath();
+              ctx.moveTo(p1.x, p1.y);
+              ctx.lineTo(mouse.x, mouse.y);
+              ctx.strokeStyle = `rgba(57, 255, 20, ${alpha})`;
+              ctx.lineWidth = 0.9;
+              ctx.stroke();
+            }
+          }
+        }
+
+        // 3. Draw and update mouse sparks
+        for (let i = trailParticles.length - 1; i >= 0; i--) {
+          const tp = trailParticles[i];
+          tp.update();
+          tp.draw();
+          if (tp.alpha <= 0) {
+            trailParticles.splice(i, 1);
+          }
+        }
+        
+        requestAnimationFrame(animate);
+      }
+      
+      animate();
+    }
+  </script>
 </body>
 </html>
